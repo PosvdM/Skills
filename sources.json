@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "installDirectory": "$HOME/.agents/skills",
+  "skills": [
+    {
+      "name": "direct-writing",
+      "type": "bundled",
+      "path": "skills/direct-writing"
+    },
+    {
+      "name": "find-skills",
+      "type": "external",
+      "source": "https://github.com/vercel-labs/skills",
+      "sourcePath": "skills/find-skills",
+      "installPage": "https://www.skills.sh/vercel-labs/skills/find-skills"
+    },
+    {
+      "name": "docx",
+      "type": "external",
+      "source": "https://github.com/anthropics/skills",
+      "sourcePath": "skills/docx"
+    },
+    {
+      "name": "pdf",
+      "type": "external",
+      "source": "https://github.com/anthropics/skills",
+      "sourcePath": "skills/pdf"
+    }
+  ]
+}

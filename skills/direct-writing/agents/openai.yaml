@@ -1,0 +1,6 @@
+interface:
+  display_name: "直接写作"
+  short_description: "减少空泛修饰，以准确、具体、简洁的语言完成各类写作任务"
+  default_prompt: "Use $direct-writing to draft clear, specific prose without ornamental modifiers."
+policy:
+  allow_implicit_invocation: true
