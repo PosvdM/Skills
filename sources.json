@@ -18,13 +18,15 @@
       "name": "docx",
       "type": "external",
       "source": "https://github.com/anthropics/skills",
-      "sourcePath": "skills/docx"
+      "sourcePath": "skills/docx",
+      "installPage": "https://www.skills.sh/anthropics/skills/docx"
     },
     {
       "name": "pdf",
       "type": "external",
       "source": "https://github.com/anthropics/skills",
-      "sourcePath": "skills/pdf"
+      "sourcePath": "skills/pdf",
+      "installPage": "https://www.skills.sh/anthropics/skills/pdf"
     }
   ]
 }

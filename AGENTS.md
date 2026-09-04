@@ -7,7 +7,7 @@ Install every personal Skill declared in `sources.json`. These instructions are 
 - Treat `sources.json` as the complete source of truth. Never rely on a fixed count or hard-coded list of Skill names.
 - Store canonical copies under `~/.agents/skills/`. On Windows, resolve `~` to the current user's profile directory.
 - Install only personal Skills declared in `sources.json`.
-- Do not move, copy, replace, or delete system and built-in Skills managed by any agent. Keep Codex system Skills in `~/.codex/skills/.system/`.
+- Do not move, copy, replace, or delete system and built-in Skills managed by any agent. Codex reads personal Skills from `~/.agents/skills/` in this setup and needs no compatibility link. Never link, replace, or remove the Codex Skills directory `~/.codex/skills/`; it contains Codex-managed system Skills under `~/.codex/skills/.system/`.
 - Use the Skills CLI in global scope with `--agent universal`. This installs canonical copies in `~/.agents/skills/` without creating per-Skill compatibility links. Never pass `--agent '*'`.
 - Agents that read `~/.agents/skills/` natively need no compatibility link.
 - For each installed agent that requires its own personal Skills directory, link that entire directory to `~/.agents/skills/`: use a directory symlink on macOS/Linux or a directory Junction on Windows. Create one parent-directory link per installed agent, never one link per Skill.
@@ -17,7 +17,12 @@ Install every personal Skill declared in `sources.json`. These instructions are 
 
 ## Procedure
 
-1. Read and validate every entry in `sources.json`. Names must be unique, and each entry must have type `bundled` or `external`.
+1. Parse and validate all of `sources.json` before changing the filesystem. Stop and report the error if any check fails:
+   - The root must have supported `schemaVersion: 1`, exact `installDirectory: "~/.agents/skills"`, and a `skills` array.
+   - Every Skill must have a non-empty lowercase kebab-case `name`; names must remain unique after case folding so they cannot collide on Windows or macOS.
+   - `type` must be `bundled` or `external`.
+   - A `bundled` entry must have a repository-relative `path` under `skills/`, with no absolute path or `..` segment. The directory and `SKILL.md` must exist, and the frontmatter `name` must equal the manifest name.
+   - An `external` entry must have non-empty `source`, `sourcePath`, and HTTPS `installPage` values. Confirm that the source is reachable, the recorded source path contains `SKILL.md`, and its frontmatter `name` equals the manifest name.
 2. Check for Git, Node.js, npm, and `npx`. If a required dependency is missing, explain what is needed and obtain permission before installing software.
 3. For each `bundled` entry, confirm that its repository path contains `SKILL.md`, then install it from this repository:
 
@@ -32,5 +37,5 @@ Install every personal Skill declared in `sources.json`. These instructions are 
    ```
 
 5. Detect which agents are actually installed. For each non-native agent, identify its documented personal Skills directory and apply the parent-directory link rules above. Do not rely on the presence of a newly created empty directory as evidence that an agent is installed.
-6. Iterate over every manifest entry and verify that `~/.agents/skills/<name>/SKILL.md` exists. Confirm that each compatibility link created during this run belongs to an installed agent, targets the canonical parent directory, and exposes every canonical Skill.
+6. Iterate over every manifest entry and verify that `~/.agents/skills/<name>/SKILL.md` exists and its frontmatter name matches. Compare the installed directory names with the manifest and report any extra personal Skill without deleting it. Confirm that each compatibility link created during this run belongs to an installed agent, targets the canonical parent directory, and exposes every canonical Skill.
 7. Report the result for every manifest entry. Include any migrated Skill, backup, skipped link, failed installation, or compatibility link. Do not claim completion while an entry is missing.
