@@ -4,7 +4,6 @@ set -euo pipefail
 
 repository_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 skills_directory="${HOME}/.agents/skills"
-bundled_source="${repository_root}/skills/direct-writing"
 bundled_target="${skills_directory}/direct-writing"
 
 command -v git >/dev/null 2>&1 || {
@@ -25,13 +24,14 @@ if [[ -e "${bundled_target}" ]]; then
   echo "Backed up existing direct-writing to ${backup_path}"
 fi
 
-cp -R "${bundled_source}" "${bundled_target}"
+npx -y skills add "${repository_root}" \
+  --skill direct-writing --global --agent '*' --yes
 
 npx -y skills add https://github.com/vercel-labs/skills \
-  --skill find-skills --global --yes --copy
+  --skill find-skills --global --agent '*' --yes
 
 npx -y skills add https://github.com/anthropics/skills \
-  --skill docx pdf --global --yes --copy
+  --skill docx pdf --global --agent '*' --yes
 
 missing=0
 for skill_name in direct-writing find-skills docx pdf; do

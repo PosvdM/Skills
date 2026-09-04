@@ -1,12 +1,12 @@
-# Personal Skills
+# Cross-Agent Personal Skills
 
-这是我的个人 Skills 清单和安装入口。目标目录固定为：
+这是我的跨智能体个人 Skills 清单和安装入口，适用于 Claude Code、Codex、Cursor、GitHub Copilot、Gemini CLI 等支持 Agent Skills 或 Skills CLI 的客户端。个人 Skills 的主目录固定为：
 
 ```text
 $HOME/.agents/skills/
 ```
 
-Codex 管理的系统 Skills 不在本仓库中，也不会被安装脚本移动或复制。
+各客户端管理的系统或内置 Skills 不在本仓库中，也不会被安装脚本移动或复制。安装器会从主目录向已支持的智能体目录建立兼容链接，不会把个人 Skill 的源文件分散复制到多个位置。
 
 ## 包含的 Skills
 
@@ -21,7 +21,7 @@ Codex 管理的系统 Skills 不在本仓库中，也不会被安装脚本移动
 
 ## 在新电脑上安装
 
-前提：macOS 已安装 Git、Node.js 和 npm。`npx` 会自动运行 Skills CLI，无需单独安装该 CLI。
+前提：电脑已安装 Git、Node.js 和 npm。脚本支持 macOS 和 Linux；`npx` 会自动运行 Skills CLI，无需单独安装该 CLI。
 
 ```bash
 git clone https://github.com/PosvdM/skills.git
@@ -31,19 +31,20 @@ cd skills
 
 安装脚本会：
 
-1. 从本仓库复制 `direct-writing`；
+1. 从本仓库安装 `direct-writing`；
 2. 从 `vercel-labs/skills` 安装 `find-skills`；
 3. 从 `anthropics/skills` 安装 `docx` 和 `pdf`；
-4. 检查四个 Skills 是否全部位于 `$HOME/.agents/skills/`。
+4. 让 Skills CLI 为其支持的智能体建立全局兼容链接；
+5. 检查四个 Skills 是否全部位于 `$HOME/.agents/skills/`。
 
 如果目标目录中已有 `direct-writing`，脚本会先保存带时间戳的备份，再安装仓库版本。
 
-## 直接交给 ChatGPT/Codex
+## 直接交给任意智能体
 
-在新的 ChatGPT 应用中发送下面这句话：
+把仓库链接和下面这段指令交给 Claude、ChatGPT/Codex、Cursor 或其他能够运行终端命令的智能体：
 
 ```text
-请打开 https://github.com/PosvdM/skills，按照 README 运行 install.sh，把仓库列出的全部个人 Skills 安装到 ~/.agents/skills/。不要移动或复制 Codex 系统 Skills。完成后检查 direct-writing、find-skills、docx、pdf 四个目录及各自的 SKILL.md。
+请打开 https://github.com/PosvdM/skills，按照 README 运行 install.sh，把仓库列出的全部个人 Skills 安装到 ~/.agents/skills/，并为当前智能体建立兼容链接。不要移动或复制任何客户端管理的系统或内置 Skills。完成后检查 direct-writing、find-skills、docx、pdf 四个目录及各自的 SKILL.md。
 ```
 
 如果仓库是私有的，需要先在新电脑上登录有权访问该仓库的 GitHub 账号。
@@ -51,8 +52,8 @@ cd skills
 ## 单独安装第三方 Skills
 
 ```bash
-npx -y skills add https://github.com/vercel-labs/skills --skill find-skills --global --yes --copy
-npx -y skills add https://github.com/anthropics/skills --skill docx pdf --global --yes --copy
+npx -y skills add https://github.com/vercel-labs/skills --skill find-skills --global --agent '*' --yes
+npx -y skills add https://github.com/anthropics/skills --skill docx pdf --global --agent '*' --yes
 ```
 
 来源详情见 [`sources.json`](sources.json)。
