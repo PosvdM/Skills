@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "installDirectory": "$HOME/.agents/skills",
+  "installDirectory": "~/.agents/skills",
   "skills": [
     {
       "name": "direct-writing",
