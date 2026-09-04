@@ -4,7 +4,29 @@ set -euo pipefail
 
 repository_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 skills_directory="${HOME}/.agents/skills"
-bundled_target="${skills_directory}/direct-writing"
+manifest_file="${repository_root}/sources.json"
+manifest_reader="${repository_root}/scripts/read-manifest.mjs"
+mode="${1:-install}"
+
+if [[ "${mode}" != "install" && "${mode}" != "--check" ]]; then
+  echo "Usage: ./install.sh [--check]" >&2
+  exit 1
+fi
+
+command -v node >/dev/null 2>&1 || {
+  echo "Error: Node.js is required." >&2
+  exit 1
+}
+
+manifest_entries="$(node "${manifest_reader}" "${manifest_file}" "${repository_root}")"
+
+if [[ "${mode}" == "--check" ]]; then
+  echo "Manifest is valid:"
+  while IFS=$'\t' read -r skill_name skill_type skill_location; do
+    echo "- ${skill_name} (${skill_type}: ${skill_location})"
+  done <<< "${manifest_entries}"
+  exit 0
+fi
 
 command -v git >/dev/null 2>&1 || {
   echo "Error: git is required." >&2
@@ -18,23 +40,29 @@ command -v npx >/dev/null 2>&1 || {
 
 mkdir -p "${skills_directory}"
 
-if [[ -e "${bundled_target}" ]]; then
-  backup_path="${bundled_target}.backup-$(date +%Y%m%d-%H%M%S)"
-  mv "${bundled_target}" "${backup_path}"
-  echo "Backed up existing direct-writing to ${backup_path}"
-fi
+expected_skills=()
 
-npx -y skills add "${repository_root}" \
-  --skill direct-writing --global --agent '*' --yes
+while IFS=$'\t' read -r skill_name skill_type skill_location; do
+  expected_skills+=("${skill_name}")
+  skill_target="${skills_directory}/${skill_name}"
 
-npx -y skills add https://github.com/vercel-labs/skills \
-  --skill find-skills --global --agent '*' --yes
+  if [[ -e "${skill_target}" || -L "${skill_target}" ]]; then
+    backup_path="${skill_target}.backup-$(date +%Y%m%d-%H%M%S)"
+    mv "${skill_target}" "${backup_path}"
+    echo "Backed up existing ${skill_name} to ${backup_path}"
+  fi
 
-npx -y skills add https://github.com/anthropics/skills \
-  --skill docx pdf --global --agent '*' --yes
+  if [[ "${skill_type}" == "bundled" ]]; then
+    npx -y skills add "${repository_root}" \
+      --skill "${skill_name}" --global --agent '*' --yes
+  else
+    npx -y skills add "${skill_location}" \
+      --skill "${skill_name}" --global --agent '*' --yes
+  fi
+done <<< "${manifest_entries}"
 
 missing=0
-for skill_name in direct-writing find-skills docx pdf; do
+for skill_name in "${expected_skills[@]}"; do
   skill_file="${skills_directory}/${skill_name}/SKILL.md"
   if [[ -f "${skill_file}" ]]; then
     echo "OK: ${skill_file}"
