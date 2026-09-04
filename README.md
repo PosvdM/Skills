@@ -1,6 +1,6 @@
 # Cross-Agent Personal Skills
 
-这是我的跨智能体个人 Skills 清单和安装入口，适用于 Claude Code、Codex、Cursor、GitHub Copilot、Gemini CLI 等支持 Agent Skills 或 Skills CLI 的客户端。个人 Skills 的主目录固定为：
+这是我的跨 Agent 个人 Skills 清单和安装入口，适用于 Claude Code、Codex、Cursor、GitHub Copilot、Gemini CLI 等支持 Agent Skills 或 Skills CLI 的客户端。个人 Skills 的主目录固定为：
 
 ```text
 $HOME/.agents/skills/
@@ -17,7 +17,7 @@ $HOME/.agents/skills/
 
 ## 使用
 
-把下面一句话交给智能体：
+把下面一句话交给 Agent：
 
 ```text
 请按这个仓库的 AGENTS.md 安装我的个人 Skills：https://github.com/PosvdM/skills
@@ -34,4 +34,4 @@ $HOME/.agents/skills/
 
 新增第三方 Skill：只需在 `sources.json` 中增加 `type: "external"`、`name` 和 `source`；`sourcePath`、`installPage` 可用于记录原始目录和展示页面。
 
-新增条目后不需要修改安装流程或验收指令；下次智能体会直接读取更新后的清单。
+新增条目后不需要修改安装流程或验收指令；下次 Agent 会直接读取更新后的清单。
