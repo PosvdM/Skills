@@ -8,11 +8,12 @@ Install every personal Skill declared in `sources.json`. These instructions are 
 - Store canonical copies under `~/.agents/skills/`. On Windows, resolve `~` to the current user's profile directory.
 - Install only personal Skills declared in `sources.json`.
 - Do not move, copy, replace, or delete system and built-in Skills managed by any agent. Keep Codex system Skills in `~/.codex/skills/.system/`.
-- Use the Skills CLI in global scope and let it auto-detect installed agents. Never pass `--agent '*'`; it can create directories, symlinks, or Windows Junctions for agents that are not installed.
-- Agents that read `~/.agents/skills/` natively need no compatibility link. Create a link only when the current installed agent requires its own Skills directory.
-- If auto-detection misses the current agent, verify that the client is installed and requires a separate directory, then specify only that agent with `--agent <current-agent>`.
+- Use the Skills CLI in global scope with `--agent universal`. This installs canonical copies in `~/.agents/skills/` without creating per-Skill compatibility links. Never pass `--agent '*'`.
+- Agents that read `~/.agents/skills/` natively need no compatibility link.
+- For each installed agent that requires its own personal Skills directory, link that entire directory to `~/.agents/skills/`: use a directory symlink on macOS/Linux or a directory Junction on Windows. Create one parent-directory link per installed agent, never one link per Skill.
+- Link only a documented, dedicated personal Skills directory. Do not link or replace a directory that contains system, built-in, enterprise, plugin, project, or other agent-managed Skills.
 - Do not create directories or links for absent agents.
-- If an existing same-named personal Skill differs from the requested version, preserve it with a clearly named backup before replacing it.
+- Before replacing an existing personal Skills directory with a parent-directory link, migrate any personal Skills it contains into `~/.agents/skills/`. Existing per-Skill links that already resolve into the canonical directory may be removed after verification. Preserve conflicts with clearly named backups. Remove the old directory only after confirming that nothing remains outside the canonical directory.
 
 ## Procedure
 
@@ -21,15 +22,15 @@ Install every personal Skill declared in `sources.json`. These instructions are 
 3. For each `bundled` entry, confirm that its repository path contains `SKILL.md`, then install it from this repository:
 
    ```bash
-   npx -y skills add https://github.com/PosvdM/skills --skill <name> --global --yes
+   npx -y skills add https://github.com/PosvdM/skills --skill <name> --global --yes --agent universal
    ```
 
 4. For each `external` entry, install the named Skill from its recorded source. Third-party source code is intentionally not vendored here:
 
    ```bash
-   npx -y skills add <source> --skill <name> --global --yes
+   npx -y skills add <source> --skill <name> --global --yes --agent universal
    ```
 
-5. Do not add `--agent` when automatic detection is correct. Apply the exception in the rules only when detection misses the verified current agent.
-6. Iterate over every manifest entry and verify that `~/.agents/skills/<name>/SKILL.md` exists. Also confirm that any compatibility link created during this run belongs to an installed agent and resolves to the canonical copy.
-7. Report the result for every manifest entry. Include any skipped Skill, backup, failed installation, or compatibility link. Do not claim completion while an entry is missing.
+5. Detect which agents are actually installed. For each non-native agent, identify its documented personal Skills directory and apply the parent-directory link rules above. Do not rely on the presence of a newly created empty directory as evidence that an agent is installed.
+6. Iterate over every manifest entry and verify that `~/.agents/skills/<name>/SKILL.md` exists. Confirm that each compatibility link created during this run belongs to an installed agent, targets the canonical parent directory, and exposes every canonical Skill.
+7. Report the result for every manifest entry. Include any migrated Skill, backup, skipped link, failed installation, or compatibility link. Do not claim completion while an entry is missing.
