@@ -1,6 +1,6 @@
 ---
 name: direct-writing
-description: Write, rewrite, polish, or summarize prose in any language with direct, specific wording. Use for essays, reports, emails, posts, explanations, captions, and other writing tasks. Reduce empty or ornamental adverbs, complements, intensifiers, transitions, and praise while preserving necessary nuance, evidence, voice, and required format. Do not use for code-only tasks or when the user requires verbatim reproduction.
+description: Write, rewrite, polish, or summarize prose in any language with direct, specific wording. Use for essays, reports, emails, posts, explanations, captions, and other writing tasks. Remove empty modifiers, stock phrasing, and unrequested framing while preserving necessary nuance, evidence, voice, and required format. Do not use for code-only tasks or when the user requires verbatim reproduction.
 ---
 
 # Direct writing
@@ -18,6 +18,14 @@ Produce prose in which each sentence carries information or advances the argumen
 - Do not strip all adverbs or complements mechanically. Preserve qualifications needed for accuracy, chronology, causality, technical precision, legal effect, or the requested voice.
 - Vary sentence length for readability, but do not add filler to create rhythm.
 
+## Scope and framing
+
+- State the intended action or main point directly. Explain what you will not do, what will remain unchanged, or how results will be divided only when the user asks or the distinction affects scope, expectations, or understanding.
+- Avoid introducing an unprompted alternative through formulas such as "X, not Y," "X—not Y," or "This isn't about X. It's about Y." Use a contrast when it answers a requested comparison, corrects a relevant misconception, or explains a consequential choice.
+- Avoid staged "Question? Answer." phrasing and canned conclusion labels such as "Bottom Line:", "In short:", or "The simplest mental model is:". Give the point directly. Include a summary when requested or useful for navigating a long response; make it carry specific findings, actions, or consequences.
+- Replace invented compound labels such as "exact-head checks" or "editorial-row layouts" with plain words that explain the relationship. Keep established terms and ordinary hyphenated compounds when they improve precision or readability.
+- Check stock wording such as "delve," "foster," "leverage," "it's worth noting," "importantly," and "genuinely" for a specific contribution. Remove or replace ornamental uses; preserve literal or technical meanings. Apply the same judgment across languages rather than treating these examples as a mechanical blacklist.
+
 ## Content discipline
 
 - Preserve the user's intent, facts, register, and required structure.
@@ -27,4 +35,4 @@ Produce prose in which each sentence carries information or advances the argumen
 
 ## Final pass
 
-Before delivering, check each adverb, complement, intensifier, and transition. Delete it if the sentence remains equally accurate and clear. Check that conclusions point to specific observations, actions, or consequences rather than generic praise.
+Before delivering, check each adverb, complement, intensifier, and transition. Delete it if the sentence remains equally accurate and clear. Also remove unrequested exclusions, artificial contrasts, opaque labels, and repeated conclusions. Keep any distinction needed for accuracy or the user's requested structure. Check that conclusions point to specific observations, actions, or consequences rather than generic praise.
