@@ -20,7 +20,7 @@ $HOME/.agents/skills/
 把下面一句话交给 Agent：
 
 ```text
-请按这个仓库的 AGENTS.md 安装我的个人 Skills：https://github.com/PosvdM/skills
+请按这个仓库的 AGENTS.md 安装我的个人 Skills：https://github.com/PosvdM/Skills
 ```
 
 完整安装规则见 [`AGENTS.md`](AGENTS.md)。仓库是私有的，因此新设备需要先登录有权访问它的 GitHub 账号。
