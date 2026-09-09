@@ -27,7 +27,7 @@ Install every personal Skill declared in `sources.json`. These instructions are 
 3. For each `bundled` entry, confirm that its repository path contains `SKILL.md`, then install it from this repository:
 
    ```bash
-   npx -y skills add https://github.com/PosvdM/skills --skill <name> --global --yes --agent universal
+   npx -y skills add https://github.com/PosvdM/Skills --skill <name> --global --yes --agent universal
    ```
 
 4. For each `external` entry, install the named Skill from its recorded source. Third-party source code is intentionally not vendored here:
