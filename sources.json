@@ -3,9 +3,9 @@
   "installDirectory": "~/.agents/skills",
   "skills": [
     {
-      "name": "direct-writing",
+      "name": "plain-language",
       "type": "bundled",
-      "path": "skills/direct-writing"
+      "path": "skills/plain-language"
     },
     {
       "name": "find-skills",
