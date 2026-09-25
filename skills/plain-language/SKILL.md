@@ -1,11 +1,9 @@
 ---
 name: plain-language
-description: Write or revise human-facing text in any language, including README and other documentation, GitHub commit messages and PR text, release notes, code comments, UI copy, and messages. Apply when a coding task creates or edits such text, even if the main task is code. Use direct, specific wording while preserving meaning, voice, and required format. Do not use for changes containing only code or for verbatim reproduction.
+description: Write, revise, or summarize prose in any language with direct, specific wording. Remove empty modifiers and stock phrasing while preserving meaning, voice, and required format. Also apply to human-facing text produced during coding work, such as README files, commit and PR text, release notes, code comments, and UI copy. Do not use for changes containing only code or for verbatim reproduction.
 ---
 
 # Plain language
-
-写给人看的内容时使用本 skill，包括 README、文档、GitHub 提交信息和 PR 标题或描述、发布说明、代码注释、界面文案与消息。即使主要任务是写代码，只要同时新写或修改这类文字，也应对这些文字应用以下原则。不要因此改写任务范围之外的现有文字，也不要把标识符、语法或机器读取的格式当作普通散文处理。
 
 尽量不要使用无意义、装饰性的状语、补语及其他修饰语。英文同样适用，包括副词和其他修饰性短语。
 
@@ -30,4 +28,8 @@ description: Write or revise human-facing text in any language, including README
 
 避免使用“不是 A，而是 B”“这不是……，这是……”及英文 “X, not Y” “This isn’t about X. It’s about Y.” 等刻意对比句式。只有在用户要求比较、需要纠正相关误解，或区别确实影响理解时才使用。
 
-保留用户意图、事实、作者声音及要求的结构。对 README、PR 和代码注释尤其要保留准确的技术信息、必要条件和可操作步骤。不要为了简短写成电报体，也不要删掉有用的解释。交付前按上述原则默查一遍；用户未要求时，不附修改过程。
+保留用户意图、事实、作者声音及要求的结构。不要为了简短写成电报体，也不要删掉有用的解释。交付前按上述原则默查一遍；用户未要求时，不附修改过程。
+
+## 代码任务中的文字
+
+写代码时若同时新写或修改给人看的内容，也对这些文字应用本 skill，包括 README、文档、GitHub 提交信息和 PR 标题或描述、发布说明、代码注释、界面文案与消息。保留准确的技术信息、必要条件和可操作步骤。不要因此改写任务范围之外的现有文字，也不要把标识符、语法或机器读取的格式当作普通散文处理。
