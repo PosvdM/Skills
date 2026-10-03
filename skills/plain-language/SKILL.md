@@ -1,37 +1,54 @@
 ---
 name: plain-language
-description: Write, revise, or summarize prose in any language with direct, specific wording. Remove empty modifiers and stock phrasing while preserving meaning, voice, and required format. Also apply to human-facing text produced during coding work, such as README files, commit and PR text, release notes, code comments, and UI copy. Do not use for changes containing only code or for verbatim reproduction.
+description: Write, revise, or summarize prose in any language with direct, specific wording. Use for writing tasks such as articles, reports, emails, posts, and summaries, and for editing existing drafts. Remove empty modifiers and stock phrasing while preserving meaning, voice, genre, and required format. Do not use for text produced during coding work, such as README files, technical docs, code comments, or commit and PR text (project-docs covers these), or for verbatim reproduction.
 ---
 
-# Plain language
+# 说人话
 
-尽量不要使用无意义、装饰性的状语、补语及其他修饰语。英文同样适用，包括副词和其他修饰性短语。
+用直接、具体的语言写作和修改文字。适用于文章、报告、邮件、帖子、总结等写作任务，中文、英文和其他语言都适用。
 
-诗歌、演讲、广告等创作类任务，以用户要求的文体和表达效果为先；结合目标语言的习惯判断，不机械套用中英文示例，也不把这些作品统一改成简短直白的说明文。
+## 删除修饰语的标准
 
-## 判断原则
+逐个检查状语、补语、副词和其他修饰语，尝试删掉：
 
-- 结合上下文尝试删除：若不损失信息、逻辑关系或明确的表达意图，就删。仅仅让句子显得更有力度、更郑重或更漂亮，不足以构成保留理由；但应保留服务于用户指定风格、文体或作者声音的修辞，包括有表达用途的节奏、重复和庄重感。
-- 保留影响否定、时间、频率、范围、程度、条件、可能性、方式和结果的必要限定；不要求每个限定都有量化数据。礼貌、安慰、幽默、人物刻画等有明确用途的语气也应保留。
-- “深入”“积极”“极大”及 “very,” “significantly,” “successfully” 等词只用于提示检查，不是禁用词。同一个词在不同语境中可能有不同作用。
-- 能用已有的具体事实替代空泛修饰时，优先写事实，不编造细节。修改原文时，不因缺少证据就擅自改变实质主张；影响主张的疑点应指出或询问。
+- 删掉后不损失信息、逻辑关系或明确的表达意图，就删。让句子显得更有力、更郑重或更漂亮，不构成保留理由。
+- 保留影响否定、时间、频率、范围、程度、条件、可能性、方式和结果的限定。这些限定不必都有数据支撑。
+- 保留有明确用途的语气，如礼貌、安慰、幽默和人物刻画。
+- “深入”“积极”“极大”和 “very” “significantly” “successfully” 等词只提示需要检查，不是禁用词。同一个词在不同语境中作用不同。
 
-## 三组边界例子
+示例：
 
-以下展示判断方式，不是固定替换规则。
+- 普通保存提示 “The file was successfully saved” 可改为 “The file was saved”；“The service is temporarily unavailable” 中的 “temporarily” 说明了持续时间，应保留。
+- “尚未完成”“几乎翻倍”“没有看清”中的限定和补语改变了意思，不能为简洁删掉。
+- 泛泛表态的“我们认真地进行了检查”可改为“我们进行了检查”；如果“认真”用来区别此前的粗略查看，就有信息，应保留。
+- “她轻轻地关上门，怕吵醒孩子”中的“轻轻地”说明动作方式，应保留。
 
-1. **装饰与限定：** 普通保存提示中的 “The file was successfully saved” 可改为 “The file was saved”；“The service is temporarily unavailable” 中的 “temporarily” 则限定了持续时间，应保留。“尚未完成”“几乎翻倍”“没有看清”也不能因追求简洁而删掉限定或补语。
-2. **上下文中的方式：** 泛泛表态的“我们认真地进行了检查”通常可改为“我们进行了检查”；若“认真”用于区别于此前的粗略查看，则有信息。同样，“她轻轻地关上门，怕吵醒孩子”中的“轻轻地”解释了动作方式，应保留。
-3. **评价与事实：** 原文已提供响应时间从 4 秒降至 2 秒时，可将“响应速度大幅提升”改为“响应时间从 4 秒缩短到 2 秒”；没有这些数据时，不自行补造。
+## 用事实替代评价
 
-## 其他写作偏好
+- 有具体事实时写事实：原文给出响应时间从 4 秒降到 2 秒，就把“响应速度大幅提升”改为“响应时间从 4 秒缩短到 2 秒”。
+- 没有事实时不编造细节。
+- 修改别人的文字时，不因缺少证据而改变实质主张；影响主张的疑点向用户指出或询问。
 
-优先用具体名词和准确动词，如用“分析数据”替代“开展数据分析工作”。直接说明重点，压缩套话、铺垫和重复结论。省去无助于理解的排除声明、自问自答、总结标签和自造术语；有助于说明范围或组织长文时可以使用。
+## 句式和结构
 
-避免使用“不是 A，而是 B”“这不是……，这是……”及英文 “X, not Y” “This isn’t about X. It’s about Y.” 等刻意对比句式。只有在用户要求比较、需要纠正相关误解，或区别确实影响理解时才使用。
+- 用具体的名词和准确的动词，如用“分析数据”替代“开展数据分析工作”。
+- 直接写重点，压缩套话、铺垫和重复的结论。
+- 省去无助于理解的排除声明、自问自答、总结标签和自造术语；它们有助于说明范围或组织长文时可以使用。
+- 避免“不是 A，而是 B”“这不是……，这是……”和 “X, not Y” “This isn’t about X. It’s about Y.” 等刻意对比句式。只在用户要求比较、需要纠正相关误解，或区别确实影响理解时使用。
+- 不为简短写成电报体，不删有用的解释。
 
-保留用户意图、事实、作者声音及要求的结构。不要为了简短写成电报体，也不要删掉有用的解释。交付前按上述原则默查一遍；用户未要求时，不附修改过程。
+## 文体和作者声音
 
-## 代码任务中的文字
+- 诗歌、演讲、广告等创作类文字，以用户要求的文体和表达效果为先，不改成简短直白的说明文。
+- 保留服务于指定风格、文体或作者声音的修辞，包括有表达用途的节奏、重复和庄重感。
+- 按目标语言的习惯判断，不机械套用中英文示例。
 
-写代码时若同时新写或修改给人看的内容，也对这些文字应用本 skill，包括 README、文档、GitHub 提交信息和 PR 标题或描述、发布说明、代码注释、界面文案与消息。保留准确的技术信息、必要条件和可操作步骤。不要因此改写任务范围之外的现有文字，也不要把标识符、语法或机器读取的格式当作普通散文处理。
+## 修改已有文字
+
+- 保留用户的意图、事实、作者声音和要求的结构。
+- 用户只要求补充或调整一处时，在原文上做针对性修改，其余部分保持不变，不重新组织全文。
+- 不擅自改变语气，如把说明性文字改成口语化的第一人称。
+
+## 交付
+
+交付前按以上标准默查一遍。用户没有要求时，不附修改过程。
