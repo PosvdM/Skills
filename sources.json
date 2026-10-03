@@ -8,6 +8,11 @@
       "path": "skills/plain-language"
     },
     {
+      "name": "project-docs",
+      "type": "bundled",
+      "path": "skills/project-docs"
+    },
+    {
       "name": "find-skills",
       "type": "external",
       "installPage": "https://www.skills.sh/vercel-labs/skills/find-skills",
