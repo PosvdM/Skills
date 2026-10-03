@@ -23,7 +23,13 @@ $HOME/.agents/skills/
 请按这个仓库的 AGENTS.md 安装我的个人 Skills：https://github.com/PosvdM/Skills
 ```
 
-完整安装规则见 [`AGENTS.md`](AGENTS.md)。仓库是私有的，因此新设备需要先登录有权访问它的 GitHub 账号。
+完整安装规则见 [`AGENTS.md`](AGENTS.md)。
+
+## 在项目中引用 project-docs
+
+把 [`templates/AGENTS.md`](templates/AGENTS.md) 复制到项目根目录；项目已有 `AGENTS.md` 时，把其中的“文档”一节加进去。Agent 会从 GitHub 在线读取 `project-docs`，不需要在本机安装。这依赖本仓库保持公开。
+
+Claude Code 在项目没有 `CLAUDE.md` 时直接读取 `AGENTS.md`；项目已有 `CLAUDE.md` 时，在其开头加一行 `@AGENTS.md`。
 
 ## 以后增加 Skill
 
