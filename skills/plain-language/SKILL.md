@@ -1,6 +1,6 @@
 ---
 name: plain-language
-description: Write, revise, or summarize prose in any language with direct, specific wording. Use for writing tasks such as articles, reports, emails, posts, and summaries, and for editing existing drafts. Remove empty modifiers and stock phrasing while preserving meaning, voice, genre, and required format. Do not use for text produced during coding work, such as README files, technical docs, code comments, or commit and PR text (project-docs covers these), or for verbatim reproduction.
+description: 用直接、具体的语言写作、修改或总结文字，适用于任何语言。用于文章、报告、邮件、帖子、总结等写作任务，以及修改已有的稿子。删掉空洞的修饰语和套话，同时保留原意、作者声音、文体和要求的格式。不用于编码过程中产生的文字，如 README、技术文档、代码注释、提交信息和 PR 文字，也不用于原样照录。
 ---
 
 # 说人话
