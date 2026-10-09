@@ -13,6 +13,11 @@
       "path": "skills/project-docs"
     },
     {
+      "name": "coding-workflow",
+      "type": "bundled",
+      "path": "skills/coding-workflow"
+    },
+    {
       "name": "find-skills",
       "type": "external",
       "installPage": "https://www.skills.sh/vercel-labs/skills/find-skills",
