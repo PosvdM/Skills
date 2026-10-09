@@ -1,6 +1,6 @@
 ---
 name: project-docs
-description: Keep a software project's README and technical docs accurate and readable during coding work. Use whenever a code change may affect documented behavior, setup, commands, configuration, or structure, and when writing or revising README files, technical docs, code comments, commit messages, PR descriptions, release notes, or UI copy. The README stays user-facing; implementation details go into technical docs written to the same standard; docs describe the current state without change history; cluttered docs are condensed and reorganized.
+description: 在编码过程中保持软件项目的 README 和技术文档准确、易读。代码改动可能影响文档中描述的行为、安装步骤、命令、配置或结构时使用；编写或修改 README、技术文档、代码注释、提交信息、PR 描述、发布说明或界面文案时也使用。README 面向使用者；实现细节写进技术文档，并遵守同样的写作规范；文档只写当前状态，不写变更经过；杂乱的文档要精简和重新整理。
 ---
 
 # 项目文档
