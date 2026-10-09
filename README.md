@@ -1,4 +1,4 @@
-# Cross-Agent Personal Skills
+# 跨 Agent 个人 Skills
 
 这是我的跨 Agent 个人 Skills 清单和安装入口，适用于 Claude Code、Codex、Cursor、GitHub Copilot、Gemini CLI 等支持 Agent Skills 或 Skills CLI 的客户端。个人 Skills 的主目录固定为：
 
