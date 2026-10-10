@@ -1,6 +1,6 @@
 interface:
   display_name: "先讨论再动手"
-  short_description: "编码任务先讨论方案，确认后再修改和交付"
+  short_description: "代码相关的事先讨论方案，确认后再改文件或做对外操作"
   default_prompt: "用 $coding-workflow 先讨论这次改动的方案，确认后再动手。"
 policy:
   allow_implicit_invocation: true
