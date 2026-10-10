@@ -2,12 +2,12 @@
 
 我的跨 Agent 个人 Skills 清单和安装入口，适用于 Claude Code、Codex、Antigravity、Cursor 等支持 Agent Skills 的客户端。Skills 统一安装到 `~/.agents/skills/`，其他 Agent 通过目录链接共用。各客户端自带的系统或内置 Skills 不归本仓库管理。
 
-## 安装
+## 安装和更新
 
-把下面一句话交给 Agent：
+安装或更新时，把下面一句话交给 Agent：
 
 ```text
-请按 https://raw.githubusercontent.com/PosvdM/Skills/main/docs/install.md 安装我的个人 Skills
+请按 https://raw.githubusercontent.com/PosvdM/Skills/main/docs/install.md 安装或更新我的个人 Skills
 ```
 
 Agent 直接从 GitHub 读取清单并安装，不需要 clone 本仓库。完整规则见 [`docs/install.md`](docs/install.md)，各 Agent 的个人 Skills 目录见 [`docs/agent-directories.md`](docs/agent-directories.md)。
