@@ -10,7 +10,7 @@
 请按这个仓库的 AGENTS.md 安装我的个人 Skills：https://github.com/PosvdM/Skills
 ```
 
-Agent 直接从 GitHub 读取清单并安装，不需要 clone 本仓库。完整规则见 [`AGENTS.md`](AGENTS.md)。
+Agent 直接从 GitHub 读取清单并安装，不需要 clone 本仓库。完整规则见 [`AGENTS.md`](AGENTS.md)，各 Agent 的个人 Skills 目录见 [`docs/agent-directories.md`](docs/agent-directories.md)。
 
 ## Skill 清单
 

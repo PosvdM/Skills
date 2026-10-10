@@ -7,7 +7,7 @@
 - 直接从 GitHub 读取清单并安装，不要 clone 本仓库，也不要从本地路径安装。清单地址：`https://raw.githubusercontent.com/PosvdM/Skills/main/sources.json`
 - `sources.json` 是唯一依据，不要假定 Skill 的数量或名称。只安装其中声明的 Skill。
 - 标准目录是 `~/.agents/skills/`（Windows 上 `~` 指当前用户的个人目录）。
-- 不要改动 Agent 自己管理的系统、内置、企业、插件或项目 Skill，包括 Codex 的 `~/.codex/skills/`（含 `.system/`）。
+- 不要改动 Agent 自己管理的系统、内置、企业、插件或项目 Skill。
 - 不要删除个人 Skill：需要替换时先迁移，发生冲突时保留命名清楚的备份。
 
 ## 步骤
@@ -24,8 +24,8 @@
    ```
 
    必须用 `--agent universal`（只装进标准目录，不为每个 Skill 建链接），不要用 `--agent '*'`。
-4. **链接其他 Agent。** 只处理本机实际安装了的 Agent，新建的空目录不能当作已安装的依据。原生读取 `~/.agents/skills/` 的 Agent（如 Codex）跳过。其余 Agent：
-   - 把它文档中说明的专用个人 Skills 目录整体链接到 `~/.agents/skills/`（macOS/Linux 用目录符号链接，Windows 用 Junction）。每个 Agent 只建一个父目录链接。
+4. **链接其他 Agent。** 只处理本机实际安装了的 Agent，新建的空目录不能当作已安装的依据。各 Agent 的目录和处理方式先查 [`docs/agent-directories.md`](https://raw.githubusercontent.com/PosvdM/Skills/main/docs/agent-directories.md)，表中没有的再查 Agent 的官方文档，并在报告中写明查到的目录和出处。原生读取 `~/.agents/skills/` 的 Agent 跳过。其余 Agent：
+   - 把它的专用个人 Skills 目录整体链接到 `~/.agents/skills/`（macOS/Linux 用目录符号链接，Windows 用 Junction）。每个 Agent 只建一个父目录链接。
    - 该目录里如果混有系统、内置、插件等由 Agent 管理的 Skill，不要链接，跳过并报告。
    - 目录已经存在时，先把其中的个人 Skill 迁移到标准目录。已经指向标准目录的单个 Skill 链接，核实后可以删除。确认没有遗留后，再换成父目录链接。
 5. **验收。**
