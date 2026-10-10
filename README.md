@@ -1,21 +1,8 @@
 # Cross-Agent Personal Skills
 
-这是我的跨 Agent 个人 Skills 清单和安装入口，适用于 Claude Code、Codex、Antigravity、Cursor 等支持 Agent Skills 或 Skills CLI 的客户端。个人 Skills 的主目录固定为：
+我的跨 Agent 个人 Skills 清单和安装入口，适用于 Claude Code、Codex、Antigravity、Cursor 等支持 Agent Skills 的客户端。Skills 统一安装到 `~/.agents/skills/`，其他 Agent 通过目录链接共用。各客户端自带的系统或内置 Skills 不归本仓库管理。
 
-```text
-$HOME/.agents/skills/
-```
-
-各客户端管理的系统或内置 Skills 不在本仓库中。
-
-## Skill 清单
-
-[`sources.json`](sources.json) 是唯一清单，不在其他文件中重复维护具体 Skill 名称。
-
-- `bundled`：自建 Skill，完整文件保存在 `skills/<name>/`。
-- `external`：已有上游仓库的 Skill，只记录名称、来源和安装页面，不复制源文件。
-
-## 使用
+## 安装
 
 把下面一句话交给 Agent：
 
@@ -23,21 +10,24 @@ $HOME/.agents/skills/
 请按这个仓库的 AGENTS.md 安装我的个人 Skills：https://github.com/PosvdM/Skills
 ```
 
-完整安装规则见 [`AGENTS.md`](AGENTS.md)。
+Agent 直接从 GitHub 读取清单并安装，不需要 clone 本仓库。完整规则见 [`AGENTS.md`](AGENTS.md)。
+
+## Skill 清单
+
+[`sources.json`](sources.json) 是唯一清单，其他文件不重复列出 Skill 名称。条目分两类：
+
+- `bundled`：自建 Skill，文件放在 `skills/<name>/`。
+- `external`：第三方 Skill，只记录上游仓库地址 `source`，不复制源文件。
+
+## 增加 Skill
+
+- 自建：把含 `SKILL.md` 的目录放进 `skills/<name>/`，在 `sources.json` 中加 `{ "name": "<name>", "type": "bundled" }`。
+- 第三方：在 `sources.json` 中加 `{ "name": "<name>", "type": "external", "source": "<上游仓库地址>" }`。
+
+`name` 必须与 `SKILL.md` frontmatter 中的 `name` 一致。安装流程不用改。
 
 ## 在项目中引用 project-docs
 
-把 [`templates/AGENTS.md`](templates/AGENTS.md) 复制到项目根目录；项目已有 `AGENTS.md` 时，把其中的“文档”一节加进去。Agent 会从 GitHub 在线读取 `project-docs`，不需要在本机安装。这依赖本仓库保持公开。
+把 [`templates/AGENTS.md`](templates/AGENTS.md) 复制到项目根目录；项目已有 `AGENTS.md` 时，只加入其中的“文档”一节。Agent 会在线读取 `project-docs`，不需要安装，前提是本仓库保持公开。
 
-Claude Code 在项目没有 `CLAUDE.md` 时直接读取 `AGENTS.md`；项目已有 `CLAUDE.md` 时，在其开头加一行 `@AGENTS.md`。
-
-## 以后增加 Skill
-
-新增自建 Skill：
-
-1. 把完整目录放入 `skills/<name>/`，确保其中有 `SKILL.md`；
-2. 在 `sources.json` 的 `skills` 数组中增加 `type: "bundled"`、`name` 和 `path`。
-
-新增第三方 Skill：只需在 `sources.json` 中增加 `type: "external"`、`name` 和 `source`；`sourcePath`、`installPage` 可用于记录原始目录和展示页面。
-
-新增条目后不需要修改安装流程或验收指令；下次 Agent 会直接读取更新后的清单。
+Claude Code 在项目没有 `CLAUDE.md` 时会直接读取 `AGENTS.md`；已有 `CLAUDE.md` 时，在其开头加一行 `@AGENTS.md`。
