@@ -12,6 +12,7 @@ description: 把用户的 Markdown 简历排成一页 A4 的 PDF，简洁风格�
 - Python 3。本文的命令写的是 `python3`，Windows 上换成 `python`。
 - Chrome 或 Edge。`build.py` 会自动查找，Windows 自带 Edge。找不到时，用环境变量 `RESUME_BROWSER` 指定浏览器程序的路径。
 - PyMuPDF，检查步骤用。有 `uv` 时用 `uv run --with pymupdf` 运行，不用安装；没有 `uv` 时，征得用户同意后执行 `pip install pymupdf`。
+- 苹方（PingFang SC）。样式按苹方调整，macOS 自带。Windows 和 Linux 上先确认已安装苹方，没有就告诉用户；没有苹方时会改用其他字体，排版和 Mac 上不同，可能超出一页。
 
 ## 文件
 
@@ -77,6 +78,6 @@ description: 把用户的 Markdown 简历排成一页 A4 的 PDF，简洁风格�
 ## 排版要求
 
 - 一页纸。
-- 在哪台电脑上生成，就在哪台电脑上检查。Windows 没有苹方，会改用微软雅黑，字更宽，同样的内容在 Mac 上是一页，在 Windows 上可能会超出。
+- 在哪台电脑上生成，就在哪台电脑上检查。
 - 头部紧凑：姓名一行，下面两行联系方式，照片在右上角，旁边不能留大块空白。
 - 完成后说明改了什么，不要只说“已完成”。
