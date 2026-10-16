@@ -1,0 +1,104 @@
+@page { size: A4; margin: 11mm 14mm 10mm 14mm; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 11.6px;
+  line-height: 1.5;
+  color: #5c5c5c;
+}
+a { color: inherit; text-decoration: none; }
+strong { color: #333; font-weight: 600; }
+code {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.92em;
+  color: #476582;
+  background: #f3f5f8;
+  border-radius: 3px;
+  padding: 0 3px;
+}
+
+/* 头部 */
+/* 照片固定在右上角，姓名、联系方式和教育背景排在它左侧 */
+.top { position: relative; padding-right: 100px; min-height: 108px; }
+.top .photo { position: absolute; top: 2px; right: 0; width: 81px; height: 108px; object-fit: cover; object-position: center 30%; }
+.top.no-photo { padding-right: 0; min-height: 0; }
+h1 {
+  margin: 0 0 6px;
+  font-size: 25px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: #1f1f1f;
+  letter-spacing: 0.5px;
+}
+.contact { display: flex; flex-wrap: wrap; column-gap: 22px; font-size: 12px; line-height: 1.75; }
+.contact span { display: inline-flex; align-items: center; white-space: nowrap; }
+.contact svg { width: 13px; height: 13px; margin-right: 6px; fill: #555; flex: none; }
+
+/* 一级标题：蓝色双斜杠 */
+h2 {
+  display: flex;
+  align-items: center;
+  margin: 7px 0 2px;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 600;
+  color: #222;
+  break-after: avoid;
+}
+h2::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 18px;
+  margin: 0 13px 0 3px;
+  background: linear-gradient(#2b74f0, #6aa6ff);
+  box-shadow: 5px 0 0 #2b74f0;
+  transform: skewX(-14deg);
+  border-radius: 1px;
+}
+
+/* 左右分栏行 */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 2px 0 1px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+}
+/* 日期列左对齐并固定最小宽度：苹方数字不等宽，右对齐时左边缘会参差 */
+.row .right { min-width: 10em; text-align: left; font-weight: 500; color: #444; white-space: nowrap; margin-left: 16px; }
+
+.proj-head { display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px; break-after: avoid; }
+h3 { margin: 0; font-size: 12.8px; font-weight: 600; color: #222; }
+.proj-head .link { font-size: 11px; color: #777; margin-left: 16px; white-space: nowrap; }
+
+.tags { margin: 2px 0 1px; }
+.tags span {
+  display: inline-block;
+  margin: 0 4px 2px 0;
+  padding: 0 7px;
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 10.2px;
+  line-height: 17px;
+  color: #8a9bb3;
+  border: 1px solid #c9d6ea;
+  border-radius: 9px;
+}
+
+p { margin: 1px 0; }
+
+ul { margin: 1px 0; padding-left: 20px; list-style: none; }
+li { position: relative; }
+ul > li::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 0.68em;
+  width: 4.5px;
+  height: 4.5px;
+  background: #444;
+}

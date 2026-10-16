@@ -1,0 +1,15 @@
+{
+  "name": "张三",
+  "photo": "photo.jpg",
+  "contact": [
+    [
+      { "icon": "user", "text": "2000.01" },
+      { "icon": "phone", "text": "138 0000 0000" },
+      { "icon": "mail", "text": "zhangsan@example.com", "href": "mailto:zhangsan@example.com" }
+    ],
+    [
+      { "icon": "web", "text": "example.com", "href": "https://example.com" },
+      { "icon": "github", "text": "github.com/zhangsan", "href": "https://github.com/zhangsan" }
+    ]
+  ]
+}

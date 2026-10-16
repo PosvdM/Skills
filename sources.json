@@ -4,6 +4,7 @@
     { "name": "plain-language", "type": "bundled" },
     { "name": "project-docs", "type": "bundled" },
     { "name": "coding-workflow", "type": "bundled" },
+    { "name": "resume-pdf", "type": "bundled" },
     { "name": "find-skills", "type": "external", "source": "https://github.com/vercel-labs/skills" },
     { "name": "docx", "type": "external", "source": "https://github.com/anthropics/skills" },
     { "name": "pdf", "type": "external", "source": "https://github.com/anthropics/skills" }
