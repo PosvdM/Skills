@@ -17,12 +17,12 @@ Agent 直接从 GitHub 读取清单并安装，不需要 clone 本仓库。完�
 [`sources.json`](sources.json) 是唯一清单，其他文件不重复列出 Skill 名称。条目分两类：
 
 - `bundled`：自建 Skill，文件放在 `skills/<name>/`。
-- `external`：第三方 Skill，只记录上游仓库地址 `source`，不复制源文件。
+- `external`：第三方 Skill，不复制源文件。`source` 是上游仓库地址，安装时使用；`listing` 是找到这个 Skill 的页面（如 skills.sh），可以不写。
 
 ## 增加 Skill
 
 - 自建：把含 `SKILL.md` 的目录放进 `skills/<name>/`，在 `sources.json` 中加 `{ "name": "<name>", "type": "bundled" }`。
-- 第三方：在 `sources.json` 中加 `{ "name": "<name>", "type": "external", "source": "<上游仓库地址>" }`。
+- 第三方：在 `sources.json` 中加 `{ "name": "<name>", "type": "external", "source": "<上游仓库地址>", "listing": "<Skill 页面地址>" }`。没有对应页面时省略 `listing`。
 
 `name` 必须与 `SKILL.md` frontmatter 中的 `name` 一致。安装流程不用改。
 

@@ -15,7 +15,7 @@
 1. **校验清单。** 修改文件系统前完整检查一遍，任何一项不通过就停止并报告：
    - `schemaVersion` 为 `2`，有 `skills` 数组。
    - 每个条目的 `name` 为非空的小写 kebab-case，忽略大小写后唯一。
-   - `type` 为 `bundled` 或 `external`；`external` 条目的 `source` 不能为空。
+   - `type` 为 `bundled` 或 `external`；`external` 条目的 `source` 不能为空。`listing` 只供查阅，可以没有，不校验。
 2. **检查依赖：** Git、Node.js、npm、`npx`。缺少时说明需要什么，征得同意后再安装。
 3. **安装。** 每个条目执行一次。`<source>` 对 `bundled` 是 `https://github.com/PosvdM/Skills`，对 `external` 是条目里的 `source`：
 
