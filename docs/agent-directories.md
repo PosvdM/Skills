@@ -6,7 +6,8 @@
 |---|---|---|---|---|
 | Codex | 是 | — | — | 沿用 Codex 文档，未实测 |
 | VS Code（GitHub Copilot） | 是 | — | — | 1.141.0，2026-10-10 查看默认配置 |
-| Claude Code | 否 | `~/.claude/skills/` | — | 2.1.295，2026-10-10 实测 |
+| pi | 是 | — | — | 1.3.0，2026-10-19 实测 |
+| Claude Code | 否 | `~/.claude/skills/` | — | 2.1.303，2026-10-19 实测 |
 | Antigravity | 否 | `~/.gemini/config/skills/` | `~/.gemini/antigravity-cli/skills/`、`~/.gemini/antigravity/skills/` | CLI 1.2.5，2026-10-10 实测 |
 | Cursor | 否 | `~/.cursor/skills/` | — | 沿用 Cursor 文档，未实测 |
 
@@ -14,6 +15,7 @@
 
 - **Codex**：个人 Skill 从 `~/.agents/skills/` 读取。`~/.codex/skills/` 存放 Codex 自己的系统 Skill（`.system/`），不要链接或替换。
 - **VS Code**：Copilot 默认搜索 `~/.agents/skills`、`~/.copilot/skills` 和 `~/.claude/skills`，不需要链接。因为 `~/.claude/skills` 也链接到标准目录，同一个 Skill 可能出现两次；出现时在 VS Code 设置中去掉 `~/.claude/skills`。
+- **pi**：自带文档写明支持 `~/.agents/skills/`，不需要链接。pi 自己的个人目录是 `~/.pi/agent/skills/`。
 - **Claude Code**：只读 `~/.claude/skills/`。插件 Skill 另有存放位置，所以这个目录可以整体链接。
 - **Antigravity**：CLI、2.0 和 IDE 的全局目录都是 `~/.gemini/config/skills/`，`~/.agents/` 只在项目内识别。内置 Skill 放在 `~/.gemini/antigravity/builtin/`，不要动。
   - 官方网页（https://antigravity.google/docs/skills ）写 CLI 的全局目录是 `~/.gemini/antigravity-cli/skills/`，但 CLI 1.2.5 实测不读这个目录；它自带的 `agy-customizations` Skill 写的是 `~/.gemini/config/`，与实测一致。
