@@ -11,7 +11,7 @@ description: 把用户的 Markdown 简历排成一页 A4 的 PDF，简洁风格�
 
 - Python 3。本文的命令写的是 `python3`，Windows 上换成 `python`。
 - Chrome 或 Edge。`build.py` 会自动查找，Windows 自带 Edge。找不到时，用环境变量 `RESUME_BROWSER` 指定浏览器程序的路径。
-- PyMuPDF，检查步骤用。有 `uv` 时用 `uv run --with pymupdf` 运行，不用安装；没有 `uv` 时，征得用户同意后执行 `pip install pymupdf`。
+- 检查步骤：macOS 上 `preview.py` 用系统自带的 PDFKit，不用装依赖。Windows 和 Linux 上需要 PyMuPDF：有 `uv` 时用 `uv run --with pymupdf` 运行，不用安装；没有 `uv` 时，征得用户同意后执行 `pip install pymupdf`。
 - 苹方（PingFang SC）。样式按苹方调整，macOS 自带。Windows 和 Linux 上先确认已安装苹方，没有就告诉用户；没有苹方时会改用其他字体，排版和 Mac 上不同，可能超出一页。
 
 ## 文件
@@ -36,7 +36,7 @@ description: 把用户的 Markdown 简历排成一页 A4 的 PDF，简洁风格�
 `排版/` 不存在时，把本 skill 的 `templates/` 复制过去，然后：
 
 1. `profile.example.json` 改名为 `profile.json`，按简历.md 填上姓名和联系方式。`contact` 里每个子数组排成一行；`icon` 可选 `user`、`phone`、`mail`、`web`、`github`。
-2. 向用户要证件照，复制成 `排版/photo.jpg`。
+2. 先在工作目录里找证件照（比如 `证件照.jpg`），找到就复制成 `排版/photo.jpg`；找不到再向用户要。
 3. 参照 `example.body.html` 的结构写 `general.body.html`，然后删掉示例文件。
 
 ## 流程
@@ -55,16 +55,16 @@ description: 把用户的 Markdown 简历排成一页 A4 的 PDF，简洁风格�
    python3 build.py general "../<姓名>-简历-<求职意向>.pdf" "<求职意向>"
    ```
 
-   文件名跟着求职意向走。换了求职意向就生成新文件，不要覆盖其他求职意向的版本。用户改了正文、要更新已有版本时，每个版本用各自的标题重新生成。
+   文件名跟着求职意向走。换了求职意向就生成新文件，不要覆盖其他求职意向的版本。用户改了正文、要更新已有版本时，只重新生成工作目录里现有的 PDF，每个版本用各自的标题。`notes.md` 记录的版本和现有文件对不上时（比如用户删掉了某个版本），先问用户，不要自己补生成。
 
 4. **检查**：
 
    ```bash
    python3 <本 skill 目录>/scripts/preview.py "../<姓名>-简历-<求职意向>.pdf"
-   # 或者：uv run --with pymupdf <本 skill 目录>/scripts/preview.py "../<姓名>-简历-<求职意向>.pdf"
+   # Windows 和 Linux 没装 PyMuPDF 时：uv run --with pymupdf <本 skill 目录>/scripts/preview.py "../<姓名>-简历-<求职意向>.pdf"
    ```
 
-   脚本输出页数，并把每页渲染成 PNG，放到它最后一行输出的目录里（系统临时目录下的 `resume-preview/`）。要求只有 1 页。查看图片，检查：头部有没有空白，照片有没有压到文字，有没有一段只多出一两个字、单独占了一行。
+   脚本输出页数，并把每页渲染成 PNG，放到它最后一行输出的目录里（系统临时目录下的 `resume-preview/`）。要求只有 1 页；超过 1 页时，脚本还会输出第 2 页起的文字，据此判断要压缩几行。注意 Chrome 不会让一段文字在页底或页顶只留一行，所以末尾两三行的条目放不下时，往往整条挤到第 2 页。查看图片，检查：头部有没有空白，照片有没有压到文字，有没有一段只多出一两个字、单独占了一行。
 
 ## 超出一页时怎么压缩
 
@@ -80,4 +80,4 @@ description: 把用户的 Markdown 简历排成一页 A4 的 PDF，简洁风格�
 - 一页纸。
 - 在哪台电脑上生成，就在哪台电脑上检查。
 - 头部紧凑：姓名一行，下面两行联系方式，照片在右上角，旁边不能留大块空白。
-- 完成后说明改了什么，不要只说“已完成”。
+- 完成后说明改了什么，不要只说“已完成”。压缩时删掉的具体信息（例子、数字、名称）要单独列出来，让用户决定要不要换别处压缩。
