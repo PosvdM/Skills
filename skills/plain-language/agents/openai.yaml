@@ -1,6 +1,0 @@
-interface:
-  display_name: "说人话"
-  short_description: "用直接、具体的语言写作和修改文字"
-  default_prompt: "用 $plain-language 写出清楚、具体、不加多余修饰的文字。"
-policy:
-  allow_implicit_invocation: true
