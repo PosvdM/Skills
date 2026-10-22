@@ -1,6 +1,0 @@
-interface:
-  display_name: "简历 PDF"
-  short_description: "把 Markdown 简历排成一页 A4 PDF"
-  default_prompt: "用 $resume-pdf 把我的简历排成一页 A4 PDF。"
-policy:
-  allow_implicit_invocation: true
