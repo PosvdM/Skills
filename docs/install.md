@@ -48,5 +48,5 @@
 
 1. 按上文第 1 步校验清单。点名的 Skill 不在清单中时，停止并告诉用户。
 2. 按第 2 步检查依赖，按第 3 步的命令安装点名的 Skill。可选和非可选条目都可以点名安装。
-3. 检查本机已安装的 Agent 是否都能读到标准目录：原生读取，或专用目录已链接到标准目录。有 Agent 读不到时，按第 4 步处理。
+3. 按 [`agent-directories.md`](https://raw.githubusercontent.com/PosvdM/Skills/main/docs/agent-directories.md) 逐个检查本机已安装的 Agent 是否都能读到标准目录：原生读取，或专用目录已链接到标准目录。有 Agent 读不到时，按第 4 步处理。
 4. 不执行第 5 步。按第 6 步验收点名的 Skill，报告结果。
