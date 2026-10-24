@@ -29,17 +29,16 @@ description: 只在 pi 的主对话中使用；子代理（妹妹）和 Claude C
 
 ## 先说再派
 
-派之前简单说明派哪个妹妹、用什么模型和思考强度、做什么；用 astra 或 Claude 时说明理由。
+派之前简单说明派哪个妹妹、用什么模型和思考强度、做什么；用 Astra 或 Claude 时说明理由。
 
 - 编码任务：写进 coding-workflow 的方案里，方案获同意就是同意派工。会改文件的妹妹等方案同意后再派，只读的随时可派。
-- 非编码任务：用 sol 或 Gemini，说一声就开始；用 astra 或 Claude，先等我确认。
+- 非编码任务：用 sol 或 Gemini，说一声就开始；用 Astra 或 Claude，先等我确认。
 
 ## 怎么派
 
 - 用 pi-web-ui 自带的 `subagent` 工具：`subagent(action="spawn", type=..., model="provider/id", prompt=...)`，不传 `template`，不用 `persist: true`。
 - `type` 标角色：`explore` 只读摸底，`implement` 改文件、执行和写作，`review` 审查。没有模板，只读、只审不改这类要求写进任务书。同一目录同一时间只有一个会改文件的妹妹。
-- 任务书开头写：「你是子代理（妹妹），由主对话派来做下面的事。不要加载 sister-squad，不要再派子代理，做完按要求汇报。」后面写清目标、背景、已定的方案、边界（能动什么、不能碰什么）和怎么算完成，具体做法交给妹妹判断。
-- 写作任务让妹妹先读对应的 skill：文章、报告、邮件用 `~/.agents/skills/plain-language/SKILL.md`；README、技术文档、PR 描述、发布说明用 `~/.agents/skills/project-docs/SKILL.md`。
+- 任务书开头写：「你是子代理（妹妹），由姐姐派来做下面的事。不要加载 sister-squad，做完按要求汇报。」后面写清目标、背景、已定的方案、边界（能动什么、不能碰什么）和怎么算完成，具体做法交给妹妹判断。
 - 派出后用 `wait_all` 等结果，被打断时再调用一次，不要反复轮询。
 - 提交、推送、开 PR、发评论等对外操作由姐姐按 coding-workflow 做，妹妹不做。
 
