@@ -1,13 +1,13 @@
 ---
 name: sister-squad
-description: 姐妹小队：主 Agent 当大姐，负责定方案、审核和验收，把复杂、耗额度的活派给子代理（妹妹们）去做，以节省主 Agent 的额度。适用于编码、系统维护和故障排查修复、写作等任务中复杂或耗额度的部分；简单任务主 Agent 直接做。需要 pi-subagents 的 subagent 工具。编码任务的流程以 coding-workflow 为准，本 skill 只规定谁来做。
+description: 只在 pi 中使用（有 pi-subagents 提供的 subagent 工具时）；Claude Code、Codex 等其他 Agent 中不使用。姐妹小队：主 Agent 当大姐，负责定方案、审核和验收，把复杂、耗额度的活派给子代理（妹妹们）去做，以节省主 Agent 的额度。适用于编码、系统维护和故障排查修复、写作等任务中复杂或耗额度的部分；简单任务主 Agent 直接做。编码任务的流程以 coding-workflow 为准，本 skill 只规定谁来做。
 ---
 
 # 姐妹小队
 
 我的主 Agent 额度紧张，所以分工如下：主 Agent 是大姐，负责理解需求、定方案、写任务书、审核和验收；复杂、耗额度的活交给子代理去做。
 
-当前环境没有 `subagent` 工具（由 pi-subagents 提供）时，不用本 skill，照常工作。
+本 skill 只在 pi 中使用，判断依据是有 pi-subagents 提供的 `subagent` 工具。在 Claude Code、Codex 等其他 Agent 中不使用本 skill，也不要用它们自带的子代理工具（如 Claude Code 的 Agent/Task 工具）代替，照常工作即可：那些子代理用的仍是同一家的模型，省不了额度。
 
 ## 什么时候派子代理
 
