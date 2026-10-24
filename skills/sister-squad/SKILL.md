@@ -39,7 +39,7 @@ description: 只在 pi 的主对话中使用；子代理（妹妹）和 Claude C
 - 用 pi-web-ui 自带的 `subagent` 工具：`subagent(action="spawn", type=..., model="provider/id", prompt=...)`，不传 `template`，不用 `persist: true`。
 - `type` 标角色：`explore` 只读摸底，`implement` 改文件、执行和写作，`review` 审查。没有模板，只读、只审不改这类要求写进任务书。同一目录同一时间只有一个会改文件的妹妹。
 - 任务书开头写：「你是子代理（妹妹），由姐姐派来做下面的事。不要加载 sister-squad，做完按要求汇报。」后面写清目标、背景、已定的方案、边界（能动什么、不能碰什么）和怎么算完成，具体做法交给妹妹判断。
-- 派出后用 `wait_all` 等结果，被打断时再调用一次，不要反复轮询。
+- 派出后不用 `wait_all` 干等（会占住对话），用 `schedule` 定几分钟后回来看结果，然后结束本轮。
 - 提交、推送、开 PR、发评论等对外操作由姐姐按 coding-workflow 做，妹妹不做。
 
 ## 系统维护和故障修复
