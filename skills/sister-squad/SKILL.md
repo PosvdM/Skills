@@ -85,6 +85,8 @@ description: 只在 pi 中使用（有 pi-subagents 提供的 subagent 工具时
 
 子代理不做提交、推送、开 PR、发评论这类对外操作，这些由主 Agent 按 coding-workflow 完成。
 
+默认用全新上下文派出子代理，不用 `context: "fork"`：fork 会复制主 Agent 的全部上下文，更耗额度。需要修改的任务，任务书里写明"方案已获用户同意，直接执行"，这样子代理即使读到 coding-workflow，也不会停下来再等批准。
+
 ## 执行中的问题
 
 子代理的问题在已同意方案的范围内，主 Agent 直接回答；超出范围的，先问我。
