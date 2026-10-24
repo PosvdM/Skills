@@ -9,6 +9,7 @@
     { "name": "find-skills", "type": "external", "source": "https://github.com/vercel-labs/skills", "listing": "https://skills.sh/vercel-labs/skills/find-skills" },
     { "name": "docx", "type": "external", "source": "https://github.com/anthropics/skills", "listing": "https://skills.sh/anthropics/skills/docx" },
     { "name": "pdf", "type": "external", "source": "https://github.com/anthropics/skills", "listing": "https://skills.sh/anthropics/skills/pdf" },
-    { "name": "ppt-master", "type": "external", "source": "https://github.com/hugohe3/ppt-master", "optional": true }
+    { "name": "ppt-master", "type": "external", "source": "https://github.com/hugohe3/ppt-master", "optional": true },
+    { "name": "sister-squad", "type": "bundled", "optional": true }
   ]
 }
