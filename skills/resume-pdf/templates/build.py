@@ -2,7 +2,8 @@
 
 头部的姓名、联系方式和照片从同目录的 profile.json 读取。
 
-用法：python3 build.py <片段名> <输出 PDF 路径> [求职意向]
+用法：python3 build.py <版本名> <输出 PDF 路径> [求职意向]
+版本名对应同目录的 <版本名>.body.html。
 例如：python3 build.py general "../张三-简历-后端开发.pdf" "后端开发"
 """
 import html
@@ -11,6 +12,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -59,8 +61,15 @@ def find_browser():
     sys.exit("找不到 Chrome 或 Edge，请用环境变量 RESUME_BROWSER 指定浏览器程序的路径")
 
 
-profile = json.loads((HERE / "profile.json").read_text(encoding="utf-8"))
+if len(sys.argv) not in (3, 4):
+    sys.exit('用法：python3 build.py <版本名> <输出 PDF 路径> [求职意向]\n'
+             '例如：python3 build.py general "../张三-简历-后端开发.pdf" "后端开发"')
 piece, out = sys.argv[1], Path(sys.argv[2]).resolve()
+body_file = HERE / f"{piece}.body.html"
+if not body_file.is_file():
+    versions = ", ".join(sorted(p.name.removesuffix(".body.html") for p in HERE.glob("*.body.html")))
+    sys.exit(f"找不到正文 {body_file.name}。现有版本：{versions or '无'}")
+profile = json.loads((HERE / "profile.json").read_text(encoding="utf-8"))
 title = sys.argv[3] if len(sys.argv) > 3 else ""
 name = f"{profile['name']} – {title}" if title else profile["name"]
 
@@ -73,7 +82,7 @@ photo = profile.get("photo")
 photo_tag = f'<img class="photo" src="{html.escape(photo)}" alt="">' if photo else ""
 
 # 正文片段里写一个 <!-- TOP_END -->，它之前的内容和姓名、联系方式一起排在照片左侧。
-body = (HERE / f"{piece}.body.html").read_text(encoding="utf-8")
+body = body_file.read_text(encoding="utf-8")
 top, _, rest = body.partition("<!-- TOP_END -->")
 page_html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -91,8 +100,14 @@ page_html = f"""<!DOCTYPE html>
 """
 page = HERE / f"{piece}.html"
 page.write_text(page_html, encoding="utf-8")
-subprocess.run(
+# 浏览器正常时也会往 stderr 写很多无关日志，所以只在失败时输出
+started = time.time()
+result = subprocess.run(
     [find_browser(), "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
      f"--print-to-pdf={out}", page.as_uri()],
-    check=True, stderr=subprocess.DEVNULL,
+    capture_output=True, text=True, errors="replace",
 )
+# 有时浏览器返回 0 却没写出文件，所以再看一次文件有没有更新
+if result.returncode or not out.is_file() or out.stat().st_mtime < started - 1:
+    sys.exit(f"浏览器没有生成 PDF（返回码 {result.returncode}）。浏览器输出：\n{result.stderr.strip()}")
+print("pdf:", out)
