@@ -23,16 +23,19 @@ description: 只在主人明确要求时使用（如"派妹妹""用姐妹小队"
 | 写作：文章、报告、PR 描述、发布说明、评论 | `cpa/gemini-3.8-flash-high` |
 | 确实需要 Claude | `cpa/claude-opus-5-5` |
 
-- `model` 必须写完整的 `provider/id`：只写模型名会退回姐姐的模型，加 `:medium` 之类的后缀会悄悄换成默认模型。思考强度跟随姐姐，不能单独指定。
-- 模型下线或改名不一定报错。派出后核对妹妹实际用的模型，不一致就用 `pi --list-models` 查，并更新本表。
+- `model` 必须写完整的 `provider/id`，不加后缀。写错或模型下线时 spawn 会直接报错，这时用 `pi --list-models` 查，并更新本表。
+- 思考强度用 `thinking` 参数指定：平时干活用 `high`，简单的摸底、跑命令可以用 `medium`，不用 `low` 及以下。
 - 用 sol 或 Gemini，告诉主人派谁、做什么就开始；用 Astra 或 Claude 要先说理由，等主人确认。
 
 ## 怎么派
 
-- `subagent(action="spawn", type=..., model="provider/id", prompt=...)`，不传 `template`，不用 `persist: true`。
-- `type` 填 `explore`（摸底）、`implement`（改文件、执行、写作）或 `review`（审查）。它只是标签，不限制工具，只读、只审不改等限制要写进任务书。
-- 同一目录同一时间只能有一个会改文件的妹妹。要并行就先用 `worktree` 给每个妹妹建目录，再传 `cwd`。
-- 派出后不用 `wait_all` 干等（会占住对话），用 `schedule` 定几分钟后回来看结果，然后结束本轮。
+- `subagent(action="spawn", type=..., model="provider/id", thinking=..., prompt=...)`，不传 `template`，不用 `persist: true`。
+- `type` 会限制妹妹能用的工具：
+  - `explore`：严格只读，不能写文件、不能用 codemode，bash 只放行 `ls`、`cat`、`grep`、只读 git 等少数命令，ssh、gh、curl、跑脚本都会被拦。只用于在本机读代码、读文件的摸底。
+  - `review`：只读，另外可以跑测试。用于审查。
+  - `implement`：不限制。用于改文件、执行、写作，以及要连服务器、用 gh、跑脚本、拉数据的摸底；只读的摸底要在任务书里写明「只读，不改任何东西」。
+- 同一目录同一时间只能有一个会改文件的妹妹。要并行就给每个妹妹传 `isolation: "worktree"`，各自在 `.worktrees/sa-<id>` 的 `subagent/<id>` 分支上干活。没改东西会自动清理；改了的，姐姐验收后派妹妹合并分支并清理工作树。
+- 派出后直接结束本轮，不用 `wait_all` 干等（会占住对话）。妹妹做完会自动叫醒姐姐。连续自动唤醒太多轮会被挂起，挂起期间完成的结果会在主人下一条消息时一起送到，不会丢。
 - 追问、返工用 `steer` 发给原来的妹妹，不重新派。
 
 ## 任务书
