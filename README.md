@@ -30,6 +30,6 @@ Agent 直接从 GitHub 读取清单并安装，不需要 clone 本仓库。装�
 
 ## 在项目中引用 project-docs
 
-把 [`templates/AGENTS.md`](templates/AGENTS.md) 复制到项目根目录；项目已有 `AGENTS.md` 时，只加入其中的“文档”一节。Agent 会在线读取 `project-docs`，不需要安装，前提是本仓库保持公开。
+把 [`templates/AGENTS.md`](templates/AGENTS.md) 复制到项目根目录；项目已有 `AGENTS.md` 时，只加入其中的“文档”一节。本机已安装 `project-docs` 时，Agent 加载本机版本；未安装时在线读取，前提是本仓库保持公开。规则只写在 `SKILL.md` 中，“文档”一节只说明去哪里读取，修改规范后不需要更新各项目的 `AGENTS.md`。
 
 Claude Code 在项目没有 `CLAUDE.md` 时会直接读取 `AGENTS.md`；已有 `CLAUDE.md` 时，在其开头加一行 `@AGENTS.md`。
