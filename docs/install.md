@@ -8,6 +8,8 @@
 - [点名安装](#点名安装)：用户点名一个或几个 Skill，如"去我仓库装上 xxx"。
 - [完整安装](#完整安装)：首次安装、换了新机器、新装了 Agent，用户要求完整检查，或日常更新的报告中有需要处理的目录。
 
+用户点名时始终按点名安装处理，即使同时属于完整安装的情况，也只检查目录并补上缺少的链接，不清理清单之外的 Skill，除非用户另外要求。
+
 ## 原则
 
 - 从 GitHub 安装，不要从本地路径或本地克隆安装。清单是 `https://github.com/PosvdM/Skills` 主分支上的 `sources.json`。
@@ -20,7 +22,7 @@
 
 ## 同步脚本
 
-脚本需要 Git、Node.js 和 `npx`。缺少时说明需要什么，征得同意后再安装。
+脚本需要 Git、Node.js 18 或更高版本和 `npx`。缺少时说明需要什么，征得同意后再安装。
 
 macOS 和 Linux：
 
@@ -31,8 +33,16 @@ curl -fsSL https://raw.githubusercontent.com/PosvdM/Skills/main/scripts/sync.mjs
 Windows（PowerShell）：
 
 ```powershell
-irm https://raw.githubusercontent.com/PosvdM/Skills/main/scripts/sync.mjs -OutFile "$env:TEMP\skills-sync.mjs"; node "$env:TEMP\skills-sync.mjs" [参数]
+$f = Join-Path $env:TEMP "skills-sync-$([guid]::NewGuid()).mjs"
+try {
+  Invoke-RestMethod https://raw.githubusercontent.com/PosvdM/Skills/main/scripts/sync.mjs -OutFile $f -ErrorAction Stop
+  node $f [参数]
+} finally {
+  Remove-Item $f -ErrorAction SilentlyContinue
+}
 ```
+
+没有输出 JSON 报告时（如下载失败），按失败处理，不要当作没有更新。
 
 参数：
 
@@ -58,13 +68,17 @@ irm https://raw.githubusercontent.com/PosvdM/Skills/main/scripts/sync.mjs -OutFi
 
 脚本不创建或删除链接，也不删除 Skill。进度写到 stderr，JSON 报告写到 stdout：
 
-- `skills`：每个条目的 `status`，取值为 `up-to-date`、`installed`、`updated`、`failed`，`--check` 时还有 `would-install`、`would-update`；`reason` 说明需要安装的原因，`error` 说明失败原因。
+- `skills`：每个条目的 `status`，取值为 `up-to-date`、`installed`、`updated`、`failed`，`--check` 时还有 `would-install`、`would-update`；`reason` 说明需要安装的原因，`error` 说明失败原因，`warning` 表示已经装好但 `skills add` 返回了非零退出码。
 - `skippedOptional`：未安装、本次跳过的可选条目。
 - `extras`：标准目录中清单之外的 Skill，`lockSource` 是 lock 文件中记录的来源。
 - `agentDirs`：每个目录的 `agent`、`kind`（`current` 当前目录，`former` 曾用目录）和 `state`：`linked` 指向标准目录、`missing` 不存在、`directory` 是真实目录（附 `entries`）、`other-link` 指向别处、`broken-link` 链接失效、`other` 是文件等。
 - `errors`：清单、依赖、参数或目录表的问题。
 
-退出码：`0` 全部成功；`1` 有条目失败；`2` 清单无效、依赖缺失或参数错误，未做任何修改，停止并报告 `errors`。
+退出码：
+
+- `0`：全部成功。
+- `1`：有条目失败，或 `errors` 不为空（如目录表无法读取）。安装可能已经部分完成，报告失败项和 `errors`。
+- `2`：清单无效、依赖缺失或参数错误，未做任何修改。停止并报告 `errors`。
 
 ## 日常更新
 
@@ -93,7 +107,7 @@ irm https://raw.githubusercontent.com/PosvdM/Skills/main/scripts/sync.mjs -OutFi
 
 除了日常更新的内容，还要重新核实各 Agent 的目录，并检查各 Agent 目录里的个人 Skill。
 
-1. **运行脚本。** 不带参数运行；用户点名时加 `--only`。
+1. **运行脚本。** 不带参数运行。
 2. **链接其他 Agent。** 只处理本机实际安装了的 Agent：能找到程序或命令才算已安装，只有配置目录或空目录不算。
    - **确定目录。** 先在 [`agent-directories.md`](https://raw.githubusercontent.com/PosvdM/Skills/main/docs/agent-directories.md) 中查线索，再核实。Agent 更新后目录可能变化，官方网页也可能滞后，核实方法按可靠程度依次为：实测（放一个临时测试 Skill，看 Agent 能否读到，测完删除）、Agent 自带的说明、官方网页。核实结果和表格不一致时，以核实结果为准。
    - 原生读取 `~/.agents/skills/` 的 Agent 不需要链接。其余 Agent 把专用个人 Skills 目录整体链接到 `~/.agents/skills/`（macOS/Linux 用目录符号链接，Windows 用 Junction）。每个 Agent 只建一个父目录链接。
