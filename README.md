@@ -10,7 +10,7 @@
 请按 https://raw.githubusercontent.com/PosvdM/Skills/main/docs/install.md 安装或更新我的个人 Skills
 ```
 
-Agent 直接从 GitHub 读取清单并安装，不需要 clone 本仓库。装好后会有 `my-skills`，以后直接对 Agent 说"更新我仓库的 skills"或"去我仓库装上 <name>"即可。日常更新只安装上游有变化的 Skill；首次安装、新装了 Agent 时说"完整检查我仓库的 skills"，Agent 会重新核实各 Agent 的目录。
+Agent 直接从 GitHub 读取清单并安装，不需要 clone 本仓库。装好后会有 `my-skills`，以后直接对 Agent 说"更新我仓库的 skills"或"去我仓库装上 <name>"即可。日常更新只安装上游有变化的 Skill；新装了 Agent 时说"完整检查我仓库的 skills"，Agent 会重新核实各 Agent 的目录；说"看看我仓库的 skills 有没有更新"只检查、不安装。
 
 比对和安装由 [`scripts/sync.mjs`](scripts/sync.mjs) 完成，Agent 处理脚本报告的异常。完整规则见 [`docs/install.md`](docs/install.md)，各 Agent 的个人 Skills 目录见 [`docs/agent-directories.md`](docs/agent-directories.md)。
 
