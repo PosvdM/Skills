@@ -33,7 +33,7 @@ GPT 后端强，严谨但死板；Claude 前端强，审美好、思维发散；
   - `explore`：严格只读本机文件，写文件、codemode、ssh、gh、curl、跑脚本都会被拦。
   - `review`：只读，跑不了测试。
   - `implement`：不限制。要 ssh、gh、跑脚本的只读摸底也用它，任务书写明「只读，不改任何东西」。
-- 派完可以结束本轮等完成通知；要马上接着处理结果就用 `subagent(action="wait_all")` 等。主人中途发消息会打断 `wait_all`，回复后先 `list` 看谁已做完，再接着等。
+- 派完就结束本轮，等完成通知叫醒。要看进度用 `list`，取结果用 `get_result`。
 - 追问、返工用 `steer` 发给原来的妹妹，不重新派。
 - 妹妹提问：能答的用 `communicate(action="reply", requestId, answers)`；要主人定的用 `communicate(action="escalate", requestId)`。提问 240 秒超时，转给主人后不计时。
 
