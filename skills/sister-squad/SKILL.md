@@ -1,6 +1,6 @@
 ---
 name: sister-squad
-description: 只在主人明确要求时使用（如"派妹妹""用姐妹小队"），没提就不用；通常在对话开头说一次，整段对话适用。主 Agent 当姐姐：和主人定方案、拆任务、验收；动手的活派给子代理妹妹：GPT 写后端和审查，Claude 写前端和其余的活，Gemini 写文档等文字，能并行就并行。子代理不用本 skill。
+description: 只在主人明确要求时使用（如"派妹妹""用姐妹小队"），没提就不用；通常在对话开头说一次，整段对话适用。主 Agent 当姐姐：和主人定方案、拆任务、验收；动手的活派给子代理妹妹：GPT 写后端和审查，Claude 写前端、文档等文字和其余的活，能并行就并行。子代理不用本 skill。
 ---
 
 # 姐妹小队
@@ -9,14 +9,14 @@ description: 只在主人明确要求时使用（如"派妹妹""用姐妹小队"
 
 ## 分工
 
-GPT 后端强，严谨但死板；Claude 前端强，审美好、思维发散；Gemini 世界知识最丰富、文笔好，但长上下文注意力很涣散。
+GPT 后端强，严谨但死板；Claude 前端强，审美好、思维发散。不派 Gemini：它长上下文注意力涣散，写的文档和 PR 描述多处超出依据（2026-11-06 定）。
 
 | 活 | 模型 | type |
 | --- | --- | --- |
 | 后端 | `cpa/gpt-6.1-sol` | `implement` |
 | 代码审查 | `cpa/gpt-6.1-sol` | `review` |
 | 前端：界面、交互、样式 | `cpa/claude-opus-5-5` | `implement` |
-| 写作：文档、报告、PR 描述、发布说明、评论 | `cpa/gemini-3.8-flash-high` | `implement` |
+| 写作：文档、报告、PR 描述、发布说明、评论 | `cpa/claude-opus-5-5` | `implement` |
 | 其他：合并联调、部署、排查、摸底、系统维护 | `cpa/claude-opus-5-5`，可换 `cpa/gpt-6.1-sol` | `implement`；只读本机文件可用 `explore` |
 
 - 特别难的活可用 `cpa/gpt-6-astra`，但耗额度，先说理由、等主人确认。
