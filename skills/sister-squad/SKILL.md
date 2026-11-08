@@ -1,6 +1,6 @@
 ---
 name: sister-squad
-description: 只在主人明确要求时使用（如"派妹妹""用姐妹小队"），没提就不用；通常在对话开头说一次，整段对话适用。主 Agent 当姐姐：和主人定方案、拆任务、验收；动手的活派给子代理妹妹：GPT 写后端和审查，Claude 写前端，其余的活派 Claude（可换 GPT），能并行就并行。子代理不用本 skill。
+description: 只在主人明确要求时使用（如"派妹妹""用姐妹小队"），没提就不用；通常在对话开头说一次，整段对话适用。主 Agent 当姐姐：和主人定方案、拆任务、验收；动手的活派给子代理妹妹：GPT 写后端和审查，Claude 写前端，其余的任务按额度在 Claude 和 GPT 之间选，能并行就并行。子代理不用本 skill。
 ---
 
 # 姐妹小队
@@ -11,13 +11,14 @@ description: 只在主人明确要求时使用（如"派妹妹""用姐妹小队"
 
 GPT 后端强，严谨但死板；Claude 前端强，审美好、思维发散。
 
-| 活 | 模型 | type |
+| 任务 | 模型 | type |
 | --- | --- | --- |
 | 后端 | 指定 `cpa/gpt-6.1-sol` | `implement` |
 | 审查 | 指定 `cpa/gpt-6.1-sol` | `review` |
 | 前端 | 指定 `cpa/claude-opus-5-5` | `implement` |
-| 其他 | `cpa/claude-opus-5-5` 或 `cpa/gpt-6.1-sol` | `implement`；只读本机文件可用 `explore` |
+| 其他 | 按额度选 `cpa/claude-opus-5-5` 或 `cpa/gpt-6.1-sol` | `implement`；只读本机文件可用 `explore` |
 
+- 派「其他」类的任务之前，用 Lamplighter MCP 的 `list_quotas` 比较 Claude 和 GPT 的 5 小时和 7 天窗口：选剩余更多、预计耗尽更晚的一边；两边都宽裕时用 Claude。派之前告诉主人选了哪边、为什么。
 - 特别难的活可用 `cpa/gpt-6-astra`，也可以替换后端和审查的指定模型，但耗额度，先说理由、等主人确认。Astra 不和其他 GPT 并行。
 - `thinking` 默认 `high`；摸底、跑命令、合并联调用 `medium`，联调涉及接口冲突或前后端不一致时用 `high`。
 - `model` 写完整的 `provider/id`。spawn 报模型错误时用 `pi --list-models` 查，并更新本表。
