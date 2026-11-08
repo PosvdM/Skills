@@ -16,7 +16,7 @@ GPT 后端强，严谨但死板；Claude 前端强，审美好、思维发散。
 | 后端 | 指定 `cpa/gpt-6.1-sol` | `implement` |
 | 审查 | 指定 `cpa/gpt-6.1-sol` | `review` |
 | 前端 | 指定 `cpa/claude-opus-5-5` | `implement` |
-| 其他 | 默认 `cpa/claude-opus-5-5`，可换 `cpa/gpt-6.1-sol` | `implement`；只读本机文件可用 `explore` |
+| 其他 | `cpa/claude-opus-5-5` 或 `cpa/gpt-6.1-sol` | `implement`；只读本机文件可用 `explore` |
 
 - 特别难的活可用 `cpa/gpt-6-astra`，也可以替换后端和审查的指定模型，但耗额度，先说理由、等主人确认。Astra 不和其他 GPT 并行。
 - `thinking` 默认 `high`；摸底、跑命令、合并联调用 `medium`，联调涉及接口冲突或前后端不一致时用 `high`。
