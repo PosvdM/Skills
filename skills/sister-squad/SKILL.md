@@ -16,7 +16,7 @@ GPT 后端强，严谨但死板；Claude 前端强，审美好、思维发散。
 | 后端 | 指定 `cpa/gpt-6.1-sol` | `implement` |
 | 审查 | 指定 `cpa/gpt-6.1-sol` | `review` |
 | 前端 | 指定 `cpa/claude-opus-5-5` | `implement` |
-| 其他 | `cpa/claude-opus-5-5` 或 `cpa/gpt-6.1-sol` | `implement`；只读本机文件可用 `explore` |
+| 其他 | 默认 `cpa/claude-opus-5-5`，可换 `cpa/gpt-6.1-sol` | `implement`；只读本机文件可用 `explore` |
 
 - 特别难的活可用 `cpa/gpt-6-astra`，也可以替换后端和审查的指定模型，但耗额度，先说理由、等主人确认。Astra 不和其他 GPT 并行。
 - `thinking` 默认 `high`；摸底、跑命令、合并联调用 `medium`，联调涉及接口冲突或前后端不一致时用 `high`。
@@ -47,8 +47,8 @@ GPT 后端强，严谨但死板；Claude 前端强，审美好、思维发散。
 
 GPT 额度按 5 小时的窗口计算，消耗约等于上下文长度 × 轮数 × 同时跑的对话数，大头是每轮重发的长上下文。
 
-- 派之前按“对话数 × 预计轮数 × 平均上下文”粗算，超过一个窗口就分批。
-- 额度用完（429）时，把工作区提交成“进行中”提交并推到分支，用 `schedule` 定时到恢复后再 `steer` 妹妹续跑。续跑时只叫醒妹妹，不叫醒孙代理；不让她“核实现场”“自审”，只看 `git status`、`git diff --stat` 和失败的测试。
+- 派之前按“对话数 × 预计轮数 × 平均上下文”粗算，超过一个窗口就分批；剩余额度和预计耗尽时间用 Lamplighter MCP 的 `list_quotas` 查。
+- 额度用完（429）时，把工作区提交成“进行中”提交并推到分支，用 `list_quotas`（传 `model`）查恢复时间，`schedule` 定到恢复后 1 分钟再 `steer` 妹妹续跑；查不到就按报错里的时间，都没有就问主人。续跑时只叫醒妹妹，不叫醒孙代理；不让她“核实现场”“自审”，只看 `git status`、`git diff --stat` 和失败的测试。
 
 ## 任务书
 
