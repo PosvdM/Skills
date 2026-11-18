@@ -17,7 +17,7 @@ GPT 严谨但死板，只用来审查；其余的活都派 Claude。
 | 其他（前端、后端、摸底、合并联调等） | `magpie/claude/claude-opus-5-5` | `implement`；只读本机文件可用 `explore` |
 
 - 特别难的活可用 `magpie/codex/gpt-6.2-astra`，不限于审查，但耗额度，先说理由、等主人确认。Astra 不和其他 GPT 并行。
-- GPT 妹妹调用 `complete` 时会把 evidence 的字段全部填上，空数组会被校验拒掉，她会反复重试（xing-shuyin/pi-web-ui#938）。派 GPT 时任务书里写明：调用 `complete` 时 evidence 只填用到的字段，不要带空数组或空字符串；只读任务写 `{none:true}`，改了文件写 `{files:["路径"], commands:["命令"]}`，没跑命令就去掉 `commands`。上游修好后删掉这条。
+- GPT 妹妹调用 `complete` 时会把 evidence 的字段全部填上，空数组会被校验拒掉，她会反复重试（xing-shuyin/pi-web-ui#938）。告诉她只填 `{none:true}` 也没用（实测仍全填，重试约 38 次）。派 GPT 时任务书里写明：不要调用 `conversation` 的 `complete`，万一调了被拒，不要重试；报告直接写在最后一条回复里。上游修好后删掉这条。
 - `thinking` 默认 `high`；摸底、跑命令和不涉及接口冲突的合并联调用 `medium`。
 - `model` 写完整的 `provider/id`。spawn 报模型错误时用 `pi --list-models` 查，并更新本表。
 - 姐姐自己只做几条命令、小改动、简单问答。连服务器、读源码、拉数据、翻文件或日志、反复调试都派；"查一下"常越查越深，也派。
