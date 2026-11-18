@@ -13,10 +13,10 @@ GPT 严谨但死板，只用来审查；其余的活都派 Claude。
 
 | 任务 | 模型 | type |
 | --- | --- | --- |
-| 审查 | `magpie/codex/gpt-6.1-sol` | `review` |
+| 审查 | `magpie/codex/gpt-6.2-sol` | `review` |
 | 其他（前端、后端、摸底、合并联调等） | `magpie/claude/claude-opus-5-5` | `implement`；只读本机文件可用 `explore` |
 
-- 特别难的活可用 `magpie/codex/gpt-6-astra`，不限于审查，但耗额度，先说理由、等主人确认。Astra 不和其他 GPT 并行。
+- 特别难的活可用 `magpie/codex/gpt-6.2-astra`，不限于审查，但耗额度，先说理由、等主人确认。Astra 不和其他 GPT 并行。
 - `thinking` 默认 `high`；摸底、跑命令和不涉及接口冲突的合并联调用 `medium`。
 - `model` 写完整的 `provider/id`。spawn 报模型错误时用 `pi --list-models` 查，并更新本表。
 - 姐姐自己只做几条命令、小改动、简单问答。连服务器、读源码、拉数据、翻文件或日志、反复调试都派；"查一下"常越查越深，也派。
