@@ -21,7 +21,7 @@ Agent 直接从 GitHub 读取清单并安装，不需要 clone 本仓库。装�
 - `bundled`：自建 Skill，文件放在 `skills/<name>/`。
 - `external`：第三方 Skill，不复制源文件。`source` 是上游仓库地址，安装时使用；`listing` 是找到这个 Skill 的页面（如 skills.sh），可以不写。
 
-两类条目都可以加 `"optional": true`，标为可选 Skill。全量安装和更新时跳过可选 Skill，除非它是已安装条目的依赖或同组成员；用到时点名安装，如"去我仓库装上 <name>"。装上后一直保留并随全量更新；不需要时手动卸载：`npx skills remove --global --yes <name>`。
+两类条目都可以加 `"optional": true`，标为可选 Skill。全量安装和更新时跳过可选 Skill，除非它因依赖或分组被带入（见[依赖和分组](#依赖和分组)）；用到时点名安装，如"去我仓库装上 <name>"。装上后一直保留并随全量更新；不需要时手动卸载：`npx skills remove --global --yes <name>`。
 
 ### 依赖和分组
 
@@ -38,7 +38,7 @@ Agent 直接从 GitHub 读取清单并安装，不需要 clone 本仓库。装�
 { "name": "b", "type": "bundled", "optional": true, "group": "suite" }
 ```
 
-全量更新以非可选条目和已安装的可选条目为起点，展开它们的依赖和同组成员，范围内缺失的条目都会安装，包括可选 Skill。因此，卸载的 Skill 如果仍在这个范围内（被其他已装 Skill 依赖，或与已装 Skill 同组），下次更新会重新装回来，需要连同依赖它的 Skill 或整组一起卸载。
+全量更新以非可选条目和已安装的可选条目为起点，展开它们的依赖和同组成员，范围内缺失的条目都会安装，包括可选 Skill。卸载后仍在下次全量更新展开范围内的 Skill 会被重新装上，例如它被非可选 Skill 或已装的 Skill 依赖，或与它们同组。
 
 ## 增加 Skill
 
