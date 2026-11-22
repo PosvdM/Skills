@@ -105,6 +105,8 @@ function treeHash(dir, folder) {
   return res.ok ? res.stdout.trim() : null;
 }
 
+const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
 function validateManifest(manifest) {
   const errors = [];
   if (manifest?.schemaVersion !== 3) errors.push('schemaVersion 不是 3');
@@ -116,15 +118,56 @@ function validateManifest(manifest) {
       errors.push(`${where} 不是对象`);
       return;
     }
-    if (typeof s?.name !== 'string' || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(s.name)) errors.push(`${where}.name 不是非空的小写 kebab-case`);
+    if (typeof s?.name !== 'string' || !KEBAB.test(s.name)) errors.push(`${where}.name 不是非空的小写 kebab-case`);
     else if (seen.has(s.name)) errors.push(`${where}.name 重复：${s.name}`);
     else seen.add(s.name);
     if (s?.type !== 'bundled' && s?.type !== 'external') errors.push(`${where}.type 必须是 bundled 或 external`);
     if (s?.type === 'external' && (typeof s.source !== 'string' || !s.source.trim())) errors.push(`${where}.source 不能为空`);
     else if (s?.type === 'external' && !isSafeSource(s.source)) errors.push(`${where}.source 含有不支持的字符或以 - 开头`);
     if ('optional' in s && typeof s.optional !== 'boolean') errors.push(`${where}.optional 必须是布尔值`);
+    if ('requires' in s && (!Array.isArray(s.requires) || !s.requires.length || s.requires.some((r) => typeof r !== 'string'))) {
+      errors.push(`${where}.requires 必须是非空的字符串数组`);
+    }
+    if ('group' in s && (typeof s.group !== 'string' || !KEBAB.test(s.group))) errors.push(`${where}.group 不是非空的小写 kebab-case`);
   });
+  if (errors.length) return errors;
+
+  // 依赖和分组要等所有名称都读完才能核对。
+  const groups = new Map();
+  for (const s of manifest.skills) {
+    for (const r of s.requires ?? []) {
+      if (r === s.name) errors.push(`${s.name}.requires 不能包含自己`);
+      else if (!seen.has(r)) errors.push(`${s.name}.requires 中的 ${r} 不在清单中`);
+    }
+    if (new Set(s.requires ?? []).size !== (s.requires ?? []).length) errors.push(`${s.name}.requires 有重复项`);
+    if (s.group) groups.set(s.group, [...(groups.get(s.group) ?? []), s.name]);
+  }
+  for (const [group, members] of groups) {
+    if (seen.has(group)) errors.push(`分组名 ${group} 与 Skill 重名，--only 无法区分`);
+    if (members.length < 2) errors.push(`分组 ${group} 只有 ${members[0]} 一个成员，至少需要 2 个`);
+  }
   return errors;
+}
+
+// 从选中的条目出发，加入同组的其他成员和 requires 中的条目，再对新加入的条目重复这一步。
+// 返回 Map：名称 → 带入它的来源（Skill 名，或 group:<组名>）；直接选中的条目来源为空。
+function expandScope(seeds, entries) {
+  const byName = new Map(entries.map((e) => [e.name, e]));
+  const scope = new Map(seeds.map((n) => [n, new Set()]));
+  const queue = [...seeds];
+  const add = (name, by) => {
+    if (!scope.has(name)) {
+      scope.set(name, new Set());
+      queue.push(name);
+    }
+    if (!seeds.includes(name)) scope.get(name).add(by);
+  };
+  while (queue.length) {
+    const entry = byName.get(queue.shift());
+    if (entry.group) for (const e of entries) if (e.group === entry.group && e.name !== entry.name) add(e.name, `group:${entry.group}`);
+    for (const r of entry.requires) add(r, entry.name);
+  }
+  return scope;
 }
 
 function readLock() {
@@ -218,24 +261,43 @@ function main() {
     finish(2);
   }
 
-  const entries = manifest.skills.map((s) => ({ name: s.name, type: s.type, optional: s.optional === true, source: s.type === 'bundled' ? opts.repo : s.source }));
+  const entries = manifest.skills.map((s) => ({
+    name: s.name,
+    type: s.type,
+    optional: s.optional === true,
+    requires: s.requires ?? [],
+    group: s.group ?? null,
+    source: s.type === 'bundled' ? opts.repo : s.source,
+  }));
   const names = new Set(entries.map((e) => e.name));
-  let scope;
+  let seeds;
   if (opts.only) {
-    const unknown = opts.only.filter((n) => !names.has(n));
-    if (unknown.length) fail(`清单中没有这些 Skill：${unknown.join(', ')}`);
-    scope = entries.filter((e) => opts.only.includes(e.name));
+    // --only 可以点名 Skill，也可以点名分组；点名分组等于点名组内所有成员。
+    const groupNames = new Set(entries.map((e) => e.group).filter(Boolean));
+    const unknown = opts.only.filter((n) => !names.has(n) && !groupNames.has(n));
+    if (unknown.length) fail(`清单中没有这些 Skill 或分组：${unknown.join(', ')}`);
+    seeds = entries.filter((e) => opts.only.includes(e.name) || opts.only.includes(e.group)).map((e) => e.name);
   } else {
-    scope = entries.filter((e) => !e.optional || isInstalled(e.name));
-    report.skippedOptional = entries.filter((e) => e.optional && !isInstalled(e.name)).map((e) => e.name);
+    seeds = entries.filter((e) => !e.optional || isInstalled(e.name)).map((e) => e.name);
   }
+  const expanded = expandScope(seeds, entries);
+  const scope = entries.filter((e) => expanded.has(e.name));
+  if (!opts.only) report.skippedOptional = entries.filter((e) => !expanded.has(e.name)).map((e) => e.name);
 
   const lock = readLock();
   const results = new Map();
   for (const entry of scope) {
     log(`检查 ${entry.name}`);
     const reason = needsInstall(entry, lock);
-    results.set(entry.name, { name: entry.name, type: entry.type, optional: entry.optional, status: reason ? 'pending' : 'up-to-date', reason: reason ?? undefined });
+    const requiredBy = [...expanded.get(entry.name)];
+    results.set(entry.name, {
+      name: entry.name,
+      type: entry.type,
+      optional: entry.optional,
+      requiredBy: requiredBy.length ? requiredBy : undefined,
+      status: reason ? 'pending' : 'up-to-date',
+      reason: reason ?? undefined,
+    });
   }
 
   // 同一来源的条目合并成一次安装，只 clone 一次上游仓库。

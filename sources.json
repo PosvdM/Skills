@@ -11,7 +11,7 @@
     { "name": "pdf", "type": "external", "source": "https://github.com/anthropics/skills", "listing": "https://skills.sh/anthropics/skills/pdf" },
     { "name": "code-review", "type": "external", "source": "https://github.com/anthropics/knowledge-work-plugins", "listing": "https://skills.sh/anthropics/knowledge-work-plugins/code-review" },
     { "name": "ppt-master", "type": "external", "source": "https://github.com/hugohe3/ppt-master", "optional": true },
-    { "name": "slides", "type": "bundled", "optional": true },
+    { "name": "slides", "type": "bundled", "optional": true, "requires": ["ppt-master"] },
     { "name": "sister-squad", "type": "bundled" }
   ]
 }
