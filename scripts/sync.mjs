@@ -135,7 +135,8 @@ function validateManifest(manifest) {
   // 依赖和分组要等所有名称都读完才能核对。
   const groups = new Map();
   for (const s of manifest.skills) {
-    for (const r of s.requires ?? []) {
+    // 用 Set 去重后再逐项核对，同一个错误只报一次。
+    for (const r of new Set(s.requires ?? [])) {
       if (r === s.name) errors.push(`${s.name}.requires 不能包含自己`);
       else if (!seen.has(r)) errors.push(`${s.name}.requires 中的 ${r} 不在清单中`);
     }
@@ -150,17 +151,16 @@ function validateManifest(manifest) {
 }
 
 // 从选中的条目出发，加入同组的其他成员和 requires 中的条目，再对新加入的条目重复这一步。
-// 返回 Map：名称 → 带入它的来源（Skill 名，或 group:<组名>）；直接选中的条目来源为空。
+// 返回 Map：名称 → 首次把它带进来的条目（Skill 名，或 group:<组名>）；直接选中的条目为 null。
+// 只记首次带入的来源：之后发现的关系（如同组成员反过来指向它）不是它入选的原因。
 function expandScope(seeds, entries) {
   const byName = new Map(entries.map((e) => [e.name, e]));
-  const scope = new Map(seeds.map((n) => [n, new Set()]));
+  const scope = new Map(seeds.map((n) => [n, null]));
   const queue = [...seeds];
   const add = (name, by) => {
-    if (!scope.has(name)) {
-      scope.set(name, new Set());
-      queue.push(name);
-    }
-    if (!seeds.includes(name)) scope.get(name).add(by);
+    if (scope.has(name)) return;
+    scope.set(name, by);
+    queue.push(name);
   };
   while (queue.length) {
     const entry = byName.get(queue.shift());
@@ -257,7 +257,7 @@ function main() {
   }
   const manifestErrors = validateManifest(manifest);
   if (manifestErrors.length) {
-    report.errors.push(...manifestErrors);
+    report.errors = report.errors.concat(manifestErrors);
     finish(2);
   }
 
@@ -289,12 +289,11 @@ function main() {
   for (const entry of scope) {
     log(`检查 ${entry.name}`);
     const reason = needsInstall(entry, lock);
-    const requiredBy = [...expanded.get(entry.name)];
     results.set(entry.name, {
       name: entry.name,
       type: entry.type,
       optional: entry.optional,
-      requiredBy: requiredBy.length ? requiredBy : undefined,
+      requiredBy: expanded.get(entry.name) ?? undefined,
       status: reason ? 'pending' : 'up-to-date',
       reason: reason ?? undefined,
     });

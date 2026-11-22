@@ -21,7 +21,7 @@ description: 做演讲、宣讲 PPT 时使用。在对话里定好内容后手�
 
 ## 流程
 
-下文 `PM` 指 PPT Master 的目录 `~/.agents/skills/ppt-master`。第一次在本机使用时，先检查是否装好了 `PM/requirements.txt` 中的 Python 包，缺少时用 `python3 -m pip install -r PM/requirements.txt` 安装。
+下文 `PM` 指 PPT Master 的目录 `~/.agents/skills/ppt-master`。第一次在本机使用时，先检查是否装好了 `PM/requirements.txt` 中的 Python 包，缺少时在运行下列脚本所用的 Python 环境中运行 `python3 -m pip install -r PM/requirements.txt`；系统 Python 拒绝安装时，先建虚拟环境，之后都用它运行脚本。
 
 1. 在对话里和主人定下：受众、时长、主线、逐页大纲（每页讲什么、用哪张图）、配色和字体。缺图先告诉主人。主人确认后一直做到导出，中间不再停下来确认。
 2. 建项目：`python3 PM/scripts/project_manager.py init <名字> --format ppt169 --dir <放项目的目录>`。

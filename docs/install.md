@@ -19,8 +19,8 @@
 - 不要用 `npx skills update`：它不保留 `--agent universal`，会给检测到的每个 Agent 单独建 Skill 链接。
 - 不要改动 Agent 自己管理的系统、内置、企业、插件或项目 Skill。
 - 不要擅自删除个人 Skill：需要替换时先迁移，发生冲突时保留命名清楚的备份。清单已不再包含的 Skill 先列给用户，确认后再删除。
-- 标有 `"optional": true` 的是可选 Skill，只在用户点名时安装。已经装上的可选 Skill 一直保留并随全量更新，由用户手动卸载。
-- 条目的 `requires`（依赖）和 `group`（分组）由脚本展开：安装一个 Skill 时一起安装它的依赖和同组成员，可选 Skill 也一样。用户要卸载的 Skill 被其他已装 Skill 依赖或属于同一分组时，先告诉用户：只卸它一个，下次更新会装回来。
+- 标有 `"optional": true` 的是可选 Skill，只在用户点名，或它是要安装的条目的依赖或同组成员时安装。已经装上的可选 Skill 一直保留并随全量更新，由用户手动卸载。
+- 条目的 `requires`（依赖）和 `group`（分组）由脚本展开：安装一个 Skill 时一起安装它的依赖和同组成员，可选 Skill 也一样。用户要卸载的 Skill 被其他已装 Skill 依赖，或与已装 Skill 同组时，先告诉用户：只卸它一个，下次更新会装回来。
 
 ## 同步脚本
 
@@ -57,7 +57,7 @@ try {
 
 进度写到 stderr，JSON 报告写到 stdout。没有输出 JSON 报告时（如下载失败），按失败处理，不要当作没有更新。报告字段：
 
-- `skills`：每个条目的 `status`，取值为 `up-to-date`、`installed`、`updated`、`failed`，`--check` 时还有 `would-install`、`would-update`；`reason` 说明需要安装的原因，`error` 说明失败原因，`warning` 表示已经装好但 `skills add` 返回了非零退出码；`requiredBy` 列出把这个条目带进来的 Skill 或分组（写作 `group:<分组名>`），直接选中的条目没有这个字段。
+- `skills`：每个条目的 `status`，取值为 `up-to-date`、`installed`、`updated`、`failed`，`--check` 时还有 `would-install`、`would-update`；`reason` 说明需要安装的原因，`error` 说明失败原因，`warning` 表示已经装好但 `skills add` 返回了非零退出码；`requiredBy` 是首次把这个条目带进来的 Skill 名或分组（写作 `group:<分组名>`），直接选中的条目没有这个字段。
 - `skippedOptional`：未安装、本次跳过的可选条目。
 - `extras`：标准目录中清单之外的 Skill，`lockSource` 是 lock 文件中记录的来源。
 - `agentDirs`：每个目录的 `agent`、`kind`（`current` 当前目录，`former` 曾用目录）和 `state`：`linked` 指向标准目录、`missing` 不存在、`directory` 是真实目录（附 `entries`）、`other-link` 指向别处、`broken-link` 链接失效、`other` 是文件等。
