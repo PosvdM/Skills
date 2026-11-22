@@ -21,14 +21,31 @@ Agent 直接从 GitHub 读取清单并安装，不需要 clone 本仓库。装�
 - `bundled`：自建 Skill，文件放在 `skills/<name>/`。
 - `external`：第三方 Skill，不复制源文件。`source` 是上游仓库地址，安装时使用；`listing` 是找到这个 Skill 的页面（如 skills.sh），可以不写。
 
-两类条目都可以加 `"optional": true`，标为可选 Skill。全量安装和更新时跳过可选 Skill，用到时点名安装，如"去我仓库装上 <name>"。装上后一直保留并随全量更新；不需要时手动卸载：`npx skills remove --global --yes <name>`。
+两类条目都可以加 `"optional": true`，标为可选 Skill。全量安装和更新时跳过可选 Skill，除非它因依赖或分组被带入（见[依赖和分组](#依赖和分组)）；用到时点名安装，如"去我仓库装上 <name>"。装上后一直保留并随全量更新；不需要时手动卸载：`npx skills remove --global --yes <name>`。
+
+### 依赖和分组
+
+需要和其他 Skill 一起安装时，用下面两个字段声明：
+
+- `requires`：单向依赖，写成 Skill 名称的数组。安装这个 Skill 时一起安装它依赖的 Skill，依赖的依赖也一并安装；单独安装被依赖的 Skill 时不带上依赖它的 Skill。只写缺了就无法使用的依赖，例如 `slides` 要运行 `ppt-master` 的脚本。
+- `group`：成套使用的 Skill 写同一个分组名（小写 kebab-case）。安装组内任一成员时整组一起安装，也可以点名分组名安装。一个分组至少有 2 个成员，分组名不能与 Skill 同名。
+
+例如：
+
+```json
+{ "name": "slides", "type": "bundled", "optional": true, "requires": ["ppt-master"] },
+{ "name": "a", "type": "bundled", "optional": true, "group": "suite" },
+{ "name": "b", "type": "bundled", "optional": true, "group": "suite" }
+```
+
+全量更新以非可选条目和已安装的可选条目为起点，展开它们的依赖和同组成员，范围内缺失的条目都会安装，包括可选 Skill。卸载后仍在下次全量更新展开范围内的 Skill 会被重新装上，例如它被非可选 Skill 或已装的 Skill 依赖，或与它们同组。
 
 ## 增加 Skill
 
 - 自建：把含 `SKILL.md` 的目录放进 `skills/<name>/`，在 `sources.json` 中加 `{ "name": "<name>", "type": "bundled" }`。
 - 第三方：在 `sources.json` 中加 `{ "name": "<name>", "type": "external", "source": "<上游仓库地址>", "listing": "<Skill 页面地址>" }`。没有对应页面时省略 `listing`。
 
-只在需要时安装的，再加 `"optional": true`。`name` 必须与 `SKILL.md` frontmatter 中的 `name` 一致。安装流程不用改。
+只在需要时安装的，再加 `"optional": true`；要和其他 Skill 一起安装的，按[依赖和分组](#依赖和分组)加 `requires` 或 `group`。`name` 必须与 `SKILL.md` frontmatter 中的 `name` 一致。安装流程不用改。
 
 ## 在项目中引用 project-docs
 
