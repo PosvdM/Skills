@@ -12,6 +12,7 @@
     { "name": "code-review", "type": "external", "source": "https://github.com/anthropics/knowledge-work-plugins", "listing": "https://skills.sh/anthropics/knowledge-work-plugins/code-review" },
     { "name": "ppt-master", "type": "external", "source": "https://github.com/hugohe3/ppt-master", "optional": true },
     { "name": "slides", "type": "bundled", "optional": true, "requires": ["ppt-master"] },
-    { "name": "sister-squad", "type": "bundled" }
+    { "name": "sister-squad", "type": "bundled" },
+    { "name": "autopilot", "type": "bundled" }
   ]
 }
