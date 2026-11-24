@@ -13,7 +13,7 @@ import { spawn } from "node:child_process";
 import { readFileSync, statSync } from "node:fs";
 import { basename } from "node:path";
 
-const GROUP = "Auto Pilot";
+const GROUP = "AutoPilot";
 const CHECK_INTERVAL_MS = 5 * 60 * 1000;
 
 async function send(url, title, body) {
