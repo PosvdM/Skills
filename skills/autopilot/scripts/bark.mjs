@@ -58,7 +58,7 @@ async function watch(url, report, staleMin, maxHours) {
       alertedMtime = mtime;
       const body = `报告 ${basename(report)} 已 ${Math.round(idleMin)} 分钟没有更新，Agent 可能卡住或额度用完。报告位置：${report}`;
       try {
-        await send(url, "[可能停了] autopilot", body);
+        await send(url, "[可能停了] AutoPilot", body);
         console.log(`已发送通知：${body}`);
       } catch (err) {
         console.error(err.message);
